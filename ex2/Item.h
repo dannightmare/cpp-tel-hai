@@ -6,5 +6,5 @@
 class Item
 {
 public:
-    char getLetter();
+    virtual char getLetter();
 };

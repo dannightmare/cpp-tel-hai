@@ -4,8 +4,9 @@
 class Potion : public Item
 {
 public:
-    Potion(Player &owner) : owner(owner) {}
-    char getLetter();
+    Potion() : Item() {}
+    Potion(Player &owner) : Item(), owner(owner) {}
+    char getLetter() override;
 
 private:
     Player owner;

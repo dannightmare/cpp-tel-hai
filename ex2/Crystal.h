@@ -1,10 +1,10 @@
 #include "Item.h"
 #include "Player.h"
 
-class Crystal : Item
+class Crystal : public Item
 {
 public:
-    char getLetter();
+    char getLetter() override;
 
 private:
     Player owner;

@@ -1,7 +1,7 @@
 #include "Item.h"
 
-class Hole : Item
+class Hole : public Item
 {
 public:
-    char getLetter();
+    char getLetter() override;
 };

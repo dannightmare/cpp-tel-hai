@@ -82,5 +82,5 @@ void Alchemize::doTurn()
     }
 
     matrix[row][col] = new Potion(*players[turn]);
-    if(dynamic_cast<const Potion*>(matrix[row][col]) )
+    if (dynamic_cast<const Potion *>(matrix[row][col]));
 }
