@@ -1,0 +1,3 @@
+# Project exclude paths
+/cmake-build-debug/
+/lab4.zip
