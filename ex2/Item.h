@@ -6,6 +6,6 @@
 class Item
 {
 public:
-    virtual ~Item() {}
-    virtual char getLetter();
+    virtual ~Item() = 0;
+    virtual char getLetter() = 0;
 };
