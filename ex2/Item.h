@@ -6,5 +6,6 @@
 class Item
 {
 public:
+    virtual ~Item() {}
     virtual char getLetter();
 };
