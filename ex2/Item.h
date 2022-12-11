@@ -10,7 +10,7 @@ class Item
 {
 public:
     virtual ~Item() = 0;
-    virtual char getLetter() = 0;
+    virtual char getLetter() const = 0;
 };
 
 #endif // ITEM_H

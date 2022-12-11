@@ -9,7 +9,8 @@ class Potion : public Item
 public:
     Potion() : Item() {}
     Potion(Player &owner) : Item(), owner(owner) {}
-    char getLetter() override;
+    char getLetter() const override;
+    const Player *getOwner() const;
 
 private:
     Player owner;

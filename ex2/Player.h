@@ -10,9 +10,9 @@ public:
     Player(char letter) : letter(letter) {}
 
     // get the letter as capital
-    char getCapital();
+    char getCapital() const;
     // get the letter as lowercase
-    char getLower();
+    char getLower() const;
 
 private:
     char letter;

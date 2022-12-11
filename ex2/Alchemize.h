@@ -38,6 +38,7 @@ class Alchemize
     int countCrystals(Player& player);
     void nextTurn();
     bool isCellEmpty(int row, int col);
+    void updateCell(int row, int col);
 };
 
 #endif // ALCHEMIZE_H

@@ -7,7 +7,7 @@ class Crystal : public Item
 {
 public:
     Crystal(Player &owner) : owner(owner) {}
-    char getLetter() override;
+    char getLetter() const override;
 
 private:
     Player owner;

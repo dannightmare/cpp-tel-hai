@@ -161,7 +161,6 @@ Alchemize::fillCrystals(int row, int col)
                 isCellEmpty(i, j)) {
                 updateCell(i, j);
             }
-            
         }
     }
 }
@@ -171,8 +170,23 @@ Alchemize::updateCell(int row, int col)
 {
     int redPotions = 0;
     int bluePotions = 0;
-    for(int i = row-1; i < row+1; i++) {
-        for(int j = col-1; j < col+1; j++){
-
+    for (int i = row - 1; i < row + 1; i++) {
+        for (int j = col - 1; j < col + 1; j++) {
+            if (i >= side || j >= side || i < 0 || j < 0) {
+                continue;
+            }
+            const Potion* temp = dynamic_cast<const Potion*>(matrix[i][j]);
+            if (temp) {
+                if (temp->getOwner() == players[0]) {
+                    redPotions++;
+                }
+                if (temp->getOwner() == players[1]) {
+                    bluePotions++;
+                }
+            }
         }
     }
+    if (redPotions > 0 && bluePotions > 0) {
+        matrix[row][col] = new Potion(*players[turn]);
+    }
+}

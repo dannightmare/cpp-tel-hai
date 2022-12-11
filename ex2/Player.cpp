@@ -1,14 +1,16 @@
 
 
-#include <cctype>
 #include "Player.h"
+#include <cctype>
 
-char Player::getCapital()
+char
+Player::getCapital() const
 {
     return toupper(letter);
 }
 
-char Player::getLower() 
+char
+Player::getLower() const
 {
     return tolower(letter);
 }

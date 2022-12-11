@@ -6,7 +6,7 @@
 class Hole : public Item
 {
 public:
-    char getLetter() override;
+    char getLetter() const override;
 };
 
 #endif // HOLE_H
