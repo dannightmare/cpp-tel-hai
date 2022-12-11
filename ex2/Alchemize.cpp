@@ -168,6 +168,9 @@ Alchemize::fillCrystals(int row, int col)
 void
 Alchemize::updateCell(int row, int col)
 {
+    if (dynamic_cast<const Hole*>(matrix[row][col])) {
+        return;
+    }
     int redPotions = 0;
     int bluePotions = 0;
     for (int i = row - 1; i < row + 1; i++) {
@@ -188,5 +191,11 @@ Alchemize::updateCell(int row, int col)
     }
     if (redPotions > 0 && bluePotions > 0) {
         matrix[row][col] = new Potion(*players[turn]);
+    }
+    if (redPotions > 1 || bluePotions > 1) {
+        if (matrix[row][col] != nullptr) {
+            delete matrix[row][col];
+        }
+        matrix[row][col] = new Hole();
     }
 }

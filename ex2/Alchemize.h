@@ -39,6 +39,7 @@ class Alchemize
     void nextTurn();
     bool isCellEmpty(int row, int col);
     void updateCell(int row, int col);
+    void fillCrystals(int row, int col);
 };
 
 #endif // ALCHEMIZE_H

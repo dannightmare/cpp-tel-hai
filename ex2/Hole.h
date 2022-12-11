@@ -5,7 +5,7 @@
 
 class Hole : public Item
 {
-public:
+  public:
     char getLetter() const override;
 };
 

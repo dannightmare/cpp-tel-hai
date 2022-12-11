@@ -5,11 +5,14 @@
 
 class Crystal : public Item
 {
-public:
-    Crystal(Player &owner) : owner(owner) {}
+  public:
+    Crystal(Player& owner)
+      : owner(owner)
+    {
+    }
     char getLetter() const override;
 
-private:
+  private:
     Player owner;
 };
 
