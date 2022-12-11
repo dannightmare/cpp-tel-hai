@@ -32,7 +32,7 @@ class Alchemize
     void init();
     void printBoard();
     void printTurn();
-    void doTurn();
+    bool doTurn();
     bool isBoardFull();
     void checkWinner();
     int countCrystals(Player& player);

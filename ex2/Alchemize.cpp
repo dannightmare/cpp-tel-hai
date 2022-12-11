@@ -41,8 +41,9 @@ Alchemize::init()
 {
     while (true) {
         printBoard();
-        printTurn();
-        doTurn();
+        // printTurn();
+        while (!doTurn())
+            ;
         if (isBoardFull()) {
             checkWinner();
             return;
@@ -115,12 +116,14 @@ Alchemize::printBoard()
 #elif defined(_WIN32) || defined(_WIN64)
     system("cls");
 #endif // __APPLE__
-
+    cout << "Red count: " << countCrystals(*players[0])
+         << "\tBlue count: " << countCrystals(*players[1]) << endl;
     /// TODO: print board
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++) {
-            cout << matrix[i][j]->getLetter() << " ";
+            cout << matrix[i][j]->getLetter() << "\t";
         }
+        cout << endl;
     }
 }
 
@@ -130,9 +133,10 @@ Alchemize::printTurn()
     cout << players[turn]->getCapital() << ":" << endl;
 }
 
-void
+bool
 Alchemize::doTurn()
 {
+    cout << players[turn]->getCapital() << ":" << endl;
     int row, col;
     cin >> row >> col;
     col--;
@@ -141,12 +145,15 @@ Alchemize::doTurn()
     if (row < 0 || row >= side || col < 0 || col >= side ||
         !isCellEmpty(row, col)) {
         cerr << "Invalid row/col index or non free cell" << endl;
+        return false;
     }
 
     matrix[row][col] = new Potion(*players[turn]);
     fillCrystals(row, col);
     // this is how to find out the type of item in the matrix
     // if (dynamic_cast<const Potion *>(matrix[row][col]));
+
+    return true;
 }
 
 void
@@ -168,9 +175,10 @@ Alchemize::fillCrystals(int row, int col)
 void
 Alchemize::updateCell(int row, int col)
 {
-    if (dynamic_cast<const Hole*>(matrix[row][col])) {
-        return;
-    }
+    // Possibly unnecessary since the cell is already empty
+    // if (dynamic_cast<const Hole*>(matrix[row][col])) {
+    //     return;
+    // }
     int redPotions = 0;
     int bluePotions = 0;
     for (int i = row - 1; i < row + 1; i++) {
