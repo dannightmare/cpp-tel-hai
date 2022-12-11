@@ -4,11 +4,21 @@
 char
 Potion::getLetter() const
 {
-    return owner.getCapital();
+    return owner->getCapital();
 }
 
 const Player*
 Potion::getOwner() const
 {
-    return &owner;
+    return owner;
+}
+
+Potion&
+Potion::operator=(const Potion& other)
+{
+    if (this != &other) {
+
+        owner = other.owner;
+    }
+    return *this;
 }

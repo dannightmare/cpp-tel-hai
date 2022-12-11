@@ -8,13 +8,20 @@ Alchemize::Alchemize(int side)
   : side(side)
   , numplayers(2)
 {
+
     matrix = new Item**[side];
-    for (int i = 0; i < side; i++)
+    for (int i = 0; i < side; i++) {
         matrix[i] = new Item*[side];
-    // players = {Player('r'), Player('b')};
+        for (int j = 0; j < side; j++) {
+            matrix[i][j] = nullptr;
+        }
+    }
+
+    // debug
+    // cout << "Alchemize::Alchemize" << endl;
     players = new Player*[numplayers];
-    *players[0] = Player('r');
-    *players[1] = Player('b');
+    players[0] = new Player('r');
+    players[1] = new Player('b');
 
     init();
 }
@@ -81,6 +88,8 @@ Alchemize::countCrystals(Player& player)
     int count = 0;
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++) {
+            if (matrix[i][j] == nullptr)
+                continue;
             if (matrix[i][j]->getLetter() == player.getLower()) {
                 count++;
             }
@@ -121,6 +130,10 @@ Alchemize::printBoard()
     /// TODO: print board
     for (int i = 0; i < side; i++) {
         for (int j = 0; j < side; j++) {
+            if (matrix[i][j] == nullptr) {
+                cout << "O\t";
+                continue;
+            }
             cout << matrix[i][j]->getLetter() << "\t";
         }
         cout << endl;

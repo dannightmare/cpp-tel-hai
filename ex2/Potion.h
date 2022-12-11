@@ -6,14 +6,28 @@
 
 class Potion : public Item
 {
-public:
-    Potion() : Item() {}
-    Potion(Player &owner) : Item(), owner(owner) {}
+  public:
+    Potion() = delete;
+    ~Potion() = default;
+    Potion(Player& owner)
+      : Item()
+      , owner(&owner)
+    {
+    }
     char getLetter() const override;
-    const Player *getOwner() const;
+    const Player* getOwner() const override;
 
-private:
-    Player owner;
+    // copy constructor
+    Potion(const Potion& other)
+      : Item()
+      , owner(other.owner)
+    {
+    }
+    // operator=
+    Potion& operator=(const Potion& other);
+
+  private:
+    Player* owner;
 };
 
 #endif // POTION_H

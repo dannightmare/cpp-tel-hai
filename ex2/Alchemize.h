@@ -1,4 +1,5 @@
 #ifndef ALCHEMIZE_H
+#define ALCHEMIZE_H
 
 #include "Crystal.h"
 #include "Hole.h"
@@ -23,6 +24,8 @@ class Alchemize
     // this is the only Alchemize and it is destroyed upon finishing
     // so I don't have a use for copy constructors
     // and same for copy operator=
+    Alchemize& operator=(const Alchemize& rhs) = delete;
+    Alchemize(Alchemize& other) = delete;
   private:
     int side;
     Item*** matrix;
