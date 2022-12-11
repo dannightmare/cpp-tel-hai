@@ -123,11 +123,12 @@ void
 Alchemize::printBoard()
 {
     // I want to clear the screen according to system
-#if defined(__APPLE__) || defined(__linux__)
-    system("clear");
-#elif defined(_WIN32) || defined(_WIN64)
-    system("cls");
-#endif // __APPLE__
+    // AUTOTEST: doesn't like this
+// #if defined(__APPLE__) || defined(__linux__)
+//     system("clear");
+// #elif defined(_WIN32) || defined(_WIN64)
+//     system("cls");
+// #endif // __APPLE__
     cout << "Red count: " << countCrystals(*players[0])
          << "\tBlue count: " << countCrystals(*players[1]) << endl;
     /// TODO: print board
@@ -184,7 +185,7 @@ Alchemize::fillCrystals(int row, int col)
             }
             if (dynamic_cast<const Crystal*>(matrix[i][j]) ||
                 isCellEmpty(i, j)) {
-                cout << "Debug fillCrystals: " << i << " " << j << endl;
+                // cout << "Debug fillCrystals: " << i << " " << j << endl;
                 updateCell(i, j);
             }
         }
@@ -216,8 +217,8 @@ Alchemize::updateCell(int row, int col)
             }
         }
     }
-    cout << "Debug location: " << row << " " << col << endl;
-    cout << "Debug pots: " << redPotions << " " << bluePotions << endl;
+    // cout << "Debug location: " << row << " " << col << endl;
+    // cout << "Debug pots: " << redPotions << " " << bluePotions << endl;
     if (redPotions > 0 && bluePotions > 0) {
         matrix[row][col] = new Crystal(*players[turn]);
     }
