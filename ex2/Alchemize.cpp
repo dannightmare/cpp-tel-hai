@@ -1,5 +1,6 @@
 
 #include "Alchemize.h"
+#include "Crystal.h"
 #include <iostream>
 
 using namespace std;
@@ -47,14 +48,16 @@ void
 Alchemize::init()
 {
     while (true) {
+        
         printBoard();
-        // printTurn();
-        while (!doTurn())
-            ;
         if (isBoardFull()) {
             checkWinner();
             return;
         }
+        // printTurn();
+        while (!doTurn())
+            ;
+        
         nextTurn();
     }
 }
@@ -172,13 +175,16 @@ Alchemize::doTurn()
 void
 Alchemize::fillCrystals(int row, int col)
 {
-    for (int i = row - 1; i < row + 1; i++) {
-        for (int j = col - 1; j < col + 1; j++) {
+    for (int i = row - 1; i <= row + 1; i++) {
+        for (int j = col - 1; j <= col + 1; j++) {
             if (i >= side || j >= side || i < 0 || j < 0) {
+                /// TODO: remove debug line
+                // cout << "Debug fillCrystal out of bounds" << endl;
                 continue;
             }
             if (dynamic_cast<const Crystal*>(matrix[i][j]) ||
                 isCellEmpty(i, j)) {
+                cout << "Debug fillCrystals: " << i << " " << j << endl;
                 updateCell(i, j);
             }
         }
@@ -188,14 +194,14 @@ Alchemize::fillCrystals(int row, int col)
 void
 Alchemize::updateCell(int row, int col)
 {
-    // Possibly unnecessary since the cell is already empty
+    /// TODO: Possibly unnecessary since the cell is already empty
     // if (dynamic_cast<const Hole*>(matrix[row][col])) {
     //     return;
     // }
     int redPotions = 0;
     int bluePotions = 0;
-    for (int i = row - 1; i < row + 1; i++) {
-        for (int j = col - 1; j < col + 1; j++) {
+    for (int i = row - 1; i <= row + 1; i++) {
+        for (int j = col - 1; j <= col + 1; j++) {
             if (i >= side || j >= side || i < 0 || j < 0) {
                 continue;
             }
@@ -210,8 +216,10 @@ Alchemize::updateCell(int row, int col)
             }
         }
     }
+    cout << "Debug location: " << row << " " << col << endl;
+    cout << "Debug pots: " << redPotions << " " << bluePotions << endl;
     if (redPotions > 0 && bluePotions > 0) {
-        matrix[row][col] = new Potion(*players[turn]);
+        matrix[row][col] = new Crystal(*players[turn]);
     }
     if (redPotions > 1 || bluePotions > 1) {
         if (matrix[row][col] != nullptr) {
