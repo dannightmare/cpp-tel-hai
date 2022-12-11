@@ -1,3 +1,5 @@
+#ifndef CRYSTAL_H
+
 #include "Item.h"
 #include "Player.h"
 
@@ -10,3 +12,5 @@ public:
 private:
     Player owner;
 };
+
+#endif // CRYSTAL_H

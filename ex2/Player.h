@@ -1,5 +1,8 @@
 
 
+#ifndef PLAYER_H
+#define PLAYER_H
+
 class Player
 {
 public:
@@ -14,3 +17,5 @@ public:
 private:
     char letter;
 };
+
+#endif // PLAYER_H

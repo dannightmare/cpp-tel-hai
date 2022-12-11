@@ -1,13 +1,14 @@
+#ifndef ALCHEMIZE_H
 
-#include "Player.h"
-#include "Item.h"
-#include "Potion.h"
-#include "Hole.h"
 #include "Crystal.h"
+#include "Hole.h"
+#include "Item.h"
+#include "Player.h"
+#include "Potion.h"
 
 class Alchemize
 {
-public:
+  public:
     // c'tors
     // need arguments
     Alchemize() = delete;
@@ -22,14 +23,21 @@ public:
     // this is the only Alchemize and it is destroyed upon finishing
     // so I don't have a use for copy constructors
     // and same for copy operator=
-private:
+  private:
     int side;
-    Item ***matrix;
-    Player **players;
+    Item*** matrix;
+    Player** players;
     int numplayers;
     int turn = 0;
     void init();
     void printBoard();
     void printTurn();
     void doTurn();
+    bool isBoardFull();
+    void checkWinner();
+    int countCrystals(Player& player);
+    void nextTurn();
+    bool isCellEmpty(int row, int col);
 };
+
+#endif // ALCHEMIZE_H

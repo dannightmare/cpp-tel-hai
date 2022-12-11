@@ -1,3 +1,6 @@
+#ifndef POTION_H
+#define POTION_H
+
 #include "Item.h"
 #include "Player.h"
 
@@ -11,3 +14,5 @@ public:
 private:
     Player owner;
 };
+
+#endif // POTION_H
