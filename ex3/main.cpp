@@ -5,12 +5,12 @@
 int
 main()
 {
-    std::string str;
-    getline(std::cin, str);
-    rand();
+    // std::string str;
+    // getline(std::cin, str);
+    std::cout << rand() << " " << rand();
 
-    std::cin >> str;
-    std::cout << std::endl << str << std::endl;
+    // std::cin >> str;
+    // std::cout << std::endl << str << std::endl;
 
     return 0;
 }
