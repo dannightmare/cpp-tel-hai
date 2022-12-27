@@ -1,4 +1,5 @@
 #include "Virus.h"
+#include <string>
 
 // Virus::Virus()
 //   : size(0)
@@ -25,6 +26,7 @@ Virus::~Virus()
 Virus::Virus(Virus& other)
 {
     size = other.size;
+    genome = new int[size];
     for (int i = 0; i < size; i++) {
         genome[i] = other.genome[i];
     }
@@ -65,4 +67,46 @@ Virus::operator*()
     int tmp = genome[x];
     genome[x] = genome[y];
     genome[y] = tmp;
+}
+
+double
+Virus::calculate_factor(const Virus& other)
+{
+    double countmisfits = 0;
+    for (int i = 0; i < size; i++) {
+        if (genome[i] == other.genome[i])
+            countmisfits++;
+    }
+
+    return 1 - (countmisfits / size);
+}
+
+Virus&
+Virus::variant()
+{
+    std::string name = this->name;
+    int underscore = name.find("_");
+    // std::cout << name << " got to start of variant()" << std::endl;
+
+    if (underscore == -1) {
+        name = name + "_1";
+    } else {
+        int variant = std::stoi(name.substr(underscore+1));
+        name = name.substr(0,underscore) + "_" + std::to_string(variant+1);
+    }
+    // std::cout << name << " got to mid of variant()" << std::endl;
+
+    Virus* virus = new Virus(*this);
+    // std::cout << name << " got to postmid of variant()" << std::endl;
+
+    virus->name = name;
+    /// debug
+    // std::cout << name << " got to end of variant()" << std::endl;
+    return *virus;
+}
+
+std::string
+Virus::getName()
+{
+    return name;
 }

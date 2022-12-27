@@ -11,9 +11,9 @@ Culture::Culture(const std::string* names,
   , target(target)
   , mutations(mutations)
 {
-    culture = new Virus*[virusesamount];
+    viruses = new Virus*[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
-        culture[i] = new Virus(names[i], matrix[i], viruslength);
+        viruses[i] = new Virus(names[i], matrix[i], viruslength);
     }
     sort();
 }
@@ -21,10 +21,26 @@ Culture::Culture(const std::string* names,
 Culture::~Culture()
 {
     for (int i = 0; i < virusesamount; i++) {
-        delete[] culture[i];
+        delete[] viruses[i];
     }
-    delete[] culture;
+    delete[] viruses;
     delete &target;
+}
+
+Virus&
+Culture::getVirus(int i)
+{
+    if (i < 0 || i >= virusesamount) {
+        std::cerr << "getVirus index out of bounds " << i << std::endl;
+        exit(8);
+    }
+    return *viruses[i];
+}
+
+Virus&
+Culture::operator[](int i)
+{
+    return getVirus(i);
 }
 
 void
@@ -32,14 +48,33 @@ Culture::operator++(int)
 {
     for (int i = 0; i < virusesamount; i++) {
         for (int j = 0; j < mutations; j++)
-            *(*culture[i]);
+            *(*viruses[i]);
     }
 
     sort();
-    *culture[virusesamount - 1] = *culture[0];
+    *viruses[virusesamount - 1] = viruses[0]->variant();
 }
 
 void
 Culture::sort()
 {
+    double factor[virusesamount];
+    for (int i = 0; i < virusesamount; i++) {
+        factor[i] = target.calculate_factor(*viruses[i]);
+    }
+
+    for (int i = 0; i < virusesamount; i++) {
+        double cur = factor[i];
+        Virus curv(*viruses[i]);
+        for (int j = i; j > 0; j--) {
+            if (factor[j] < factor[j - 1]) {
+                factor[j] = factor[j - 1];
+                *viruses[j] = *viruses[j - 1];
+            } else {
+                factor[j] = cur;
+                *viruses[j] = curv;
+                break;
+            }
+        }
+    }
 }

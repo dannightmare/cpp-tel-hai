@@ -71,6 +71,12 @@ main(int argc, char** argv)
     target = new Virus("target", v, viruslength);
 
 #ifdef DEBUG
+
+    std::cout << "target=" << target->getName() << std::endl;
+    Virus variant(target->variant());
+    std::cout << "variant=" << variant.getName() << std::endl;
+    std::cout << "variant's-variant=" << variant.variant().getName()
+              << std::endl;
     for (int i = 0; i < viruslength; i++) {
         std::cout << v[i] << " ";
     }
@@ -104,17 +110,19 @@ main(int argc, char** argv)
     }
 #endif // DEBUG
 
-    culture = new Culture(names, matrix, virusesamount, viruslength, *target, mutations);
-    target = nullptr;
+    culture = new Culture(
+      names, matrix, virusesamount, viruslength, *target, mutations);
+    // target = nullptr;
 
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
-
-    for(int i = 0; i < MAXITERATIONS; i++) {
+    for (int i = 0; i < MAXITERATIONS; i++) {
         culture++;
+        if (target->calculate_factor((*culture)[0])) {
+            break;
+        }
     }
-
 
     ////////////////////////////////////////////////////////////////
     /// DELETE EVERYTHING

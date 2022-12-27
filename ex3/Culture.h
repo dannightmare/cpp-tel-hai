@@ -1,4 +1,5 @@
 #include "Virus.h"
+#include <iostream>
 
 #ifndef CULTURE_H
 #define CULTURE_H
@@ -6,7 +7,7 @@
 class Culture
 {
     Virus target;
-    Virus** culture = nullptr;
+    Virus** viruses = nullptr;
     int virusesamount;
     int viruslength;
     int mutations;
@@ -22,10 +23,10 @@ class Culture
             int mutations);
     ~Culture();
 
+    Virus& getVirus(int i);
+    Virus& operator[](int i);
+
     void operator++(int);
-
-
-
 };
 
 #endif // CULTURE_H

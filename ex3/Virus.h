@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 #ifndef VIRUS_H
 #define VIRUS_H
@@ -18,6 +19,10 @@ class Virus
     Virus& operator=(Virus& other);
     Virus(Virus&& other);
     Virus& operator=(Virus&& other);
+
+    double calculate_factor(const Virus& other);
+    Virus& variant();
+    std::string getName();
 
     void operator*();
 };
