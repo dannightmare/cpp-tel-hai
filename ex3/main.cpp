@@ -6,6 +6,7 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <utility>
 
 const int MAXITERATIONS = 1000000;
 const int MAXVIRUSES = 10000;
@@ -22,7 +23,7 @@ Virus* target = nullptr;
 int virusesamount = 0;
 Culture* culture = nullptr;
 
-#define DEBUG
+// #define DEBUG
 
 int*
 string_to_vector(const std::string str);
@@ -75,12 +76,13 @@ main(int argc, char** argv)
     }
     std::cout << std::endl;
 #endif // DEBUG
+
     delete v;
 
     first_generation >> virusesamount;
     std::getline(first_generation, tmp);
     if (virusesamount < 2) {
-        std::cerr << "virusesamount too short" << std::endl;
+        std::cerr << "virusesamount too small" << std::endl;
         exit(7);
     }
 
@@ -102,14 +104,19 @@ main(int argc, char** argv)
     }
 #endif // DEBUG
 
-    // std::string str;
-    // getline(std::cin, str);
-    // std::cout << rand() << " " << rand();
+    culture = new Culture(names, matrix, virusesamount, viruslength, *target, mutations);
+    target = nullptr;
 
-    // std::cin >> str;
-    // std::cout << std::endl << str << std::endl;
+    ////////////////////////////////////////////////////////////////
+    /// FINISHED SETUP
 
 
+    for(int i = 0; i < MAXITERATIONS; i++) {
+        culture++;
+    }
+
+
+    ////////////////////////////////////////////////////////////////
     /// DELETE EVERYTHING
     delete target;
     delete culture;

@@ -18,6 +18,8 @@ class Virus
     Virus& operator=(Virus& other);
     Virus(Virus&& other);
     Virus& operator=(Virus&& other);
+
+    void operator*();
 };
 
 #endif // VIRUS_H
