@@ -109,6 +109,11 @@ main(int argc, char** argv)
     // std::cin >> str;
     // std::cout << std::endl << str << std::endl;
 
+
+    /// DELETE EVERYTHING
+    delete target;
+    delete culture;
+
     for (int i = 0; i < virusesamount; i++) {
         delete[] matrix[i];
     }
