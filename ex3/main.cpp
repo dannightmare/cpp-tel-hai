@@ -1,9 +1,11 @@
 #include "Culture.h"
 #include "Virus.h"
-#include <cstddef>
+// #include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 #include <sstream>
+#include <string>
 
 const int MAXITERATIONS = 1000000;
 const int MAXVIRUSES = 10000;
@@ -17,10 +19,13 @@ int mutations = 0;
 Virus* target = nullptr;
 
 // first generation file
-int viruses = 0;
+int virusesamount = 0;
 Culture* culture = nullptr;
 
+#define DEBUG
 
+int*
+string_to_vector(const std::string str);
 
 int
 main(int argc, char** argv)
@@ -53,7 +58,49 @@ main(int argc, char** argv)
     }
 
     std::getline(config, tmp);
-    std::stringstream ss(tmp);
+    std::getline(config, tmp);
+
+#ifdef DEBUG
+    std::cout << "viruslength=" << viruslength << std::endl;
+    std::cout << "mutations=" << mutations << std::endl;
+    std::cout << "tmp=" << tmp << std::endl;
+#endif // DEBUG
+
+    int* v = string_to_vector(tmp);
+    target = new Virus("target", v, viruslength);
+
+#ifdef DEBUG
+    for (int i = 0; i < viruslength; i++) {
+        std::cout << v[i] << " ";
+    }
+    std::cout << std::endl;
+#endif // DEBUG
+    delete v;
+
+    first_generation >> virusesamount;
+    std::getline(first_generation, tmp);
+    if (virusesamount < 2) {
+        std::cerr << "virusesamount too short" << std::endl;
+        exit(7);
+    }
+
+    int* matrix[virusesamount];
+    std::string names[virusesamount];
+    for (int i = 0; i < virusesamount; i++) {
+        first_generation >> names[i];
+        std::getline(first_generation, tmp);
+        matrix[i] = string_to_vector(tmp);
+    }
+
+#ifdef DEBUG
+    std::cout << "matrix:" << std::endl;
+    for (int i = 0; i < virusesamount; i++) {
+        for (int j = 0; j < viruslength; j++) {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+#endif // DEBUG
 
     // std::string str;
     // getline(std::cin, str);
@@ -62,5 +109,27 @@ main(int argc, char** argv)
     // std::cin >> str;
     // std::cout << std::endl << str << std::endl;
 
+    for (int i = 0; i < virusesamount; i++) {
+        delete[] matrix[i];
+    }
     return 0;
+}
+
+int*
+string_to_vector(const std::string str)
+{
+    std::stringstream ss(str);
+    int* v = new int[viruslength];
+    for (int i = 0; i < viruslength; i++) {
+        if (ss.eof()) {
+            std::cerr << "Vector too short" << std::endl;
+            exit(5);
+        }
+        ss >> v[i];
+    }
+    if (!ss.eof()) {
+        std::cerr << "Vector too long" << std::endl;
+        exit(6);
+    }
+    return v;
 }

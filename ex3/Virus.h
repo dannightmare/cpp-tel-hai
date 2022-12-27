@@ -1,4 +1,3 @@
-#include <sstream>
 #include <string>
 
 #ifndef VIRUS_H
@@ -12,8 +11,8 @@ class Virus
     std::string name;
 
   public:
-    Virus();
-    Virus(const std::string& name, const std::string& vector);
+    Virus() = delete;
+    Virus(const std::string& name, int* genome, int size);
     ~Virus();
     Virus(Virus& other);
     Virus& operator=(Virus& other);
