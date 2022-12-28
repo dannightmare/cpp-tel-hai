@@ -63,7 +63,7 @@ main(int argc, char** argv)
     std::getline(config, tmp);
     std::getline(config, tmp);
 
-#ifdef DEBUG
+#ifdef DEBUG_CONFIG
     std::cout << "viruslength=" << viruslength << std::endl;
     std::cout << "mutations=" << mutations << std::endl;
     std::cout << "tmp=" << tmp << std::endl;
@@ -72,8 +72,8 @@ main(int argc, char** argv)
     int* v = string_to_vector(tmp);
     target = new Virus("target", v, viruslength);
 
-#ifdef DEBUG
-
+// #define DEBUG_VARIANT
+#ifdef DEBUG_VARIANT
     std::cout << "target=" << target->getName() << std::endl;
     Virus variant(target->variant());
     std::cout << "variant=" << variant.getName() << std::endl;
@@ -83,6 +83,8 @@ main(int argc, char** argv)
         std::cout << v[i] << " ";
     }
     std::cout << std::endl;
+    std::cout << "target is=" << *target << std::endl;
+    std::cout << "variant is=" << variant << std::endl;
 #endif // DEBUG
 
     delete v;
@@ -105,7 +107,7 @@ main(int argc, char** argv)
         matrix[i] = string_to_vector(tmp);
     }
 
-#ifdef DEBUG
+#ifdef DEBUG_MATRIX
     std::cout << "matrix:" << std::endl;
     for (int i = 0; i < virusesamount; i++) {
         for (int j = 0; j < viruslength; j++) {
@@ -130,12 +132,12 @@ main(int argc, char** argv)
 
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
-#ifdef DEBUG
+#ifdef DEBUG_ITER
         std::cout << "iter " << i << std::endl;
 #endif // DEBUG
         double newfactor = target->calculate_factor((*culture)[0]);
         if (newfactor == 0) {
-#ifdef DEBUG
+#ifdef DEBUG_ITER
             std::cout << "if " << i << std::endl;
 #endif // DEBUG
 
@@ -150,7 +152,8 @@ main(int argc, char** argv)
 
     for (int i = 0; i < virusesamount; i++) {
         std::cout << "debug2: " << i << std::endl;
-
+        std::cout << "debug3: vector pointer " << &(*culture)[i] << std::endl;
+        std::cout << "debug4: " << sizeof(Virus) << std::endl;
         std::cout << (*culture)[i];
         std::cout << std::endl;
         std::cout << "debug: " << i << std::endl;

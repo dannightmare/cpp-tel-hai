@@ -23,7 +23,7 @@ Culture::~Culture()
     std::cout << "debug: started deletion of culture " << std::endl;
 
     for (int i = 0; i < virusesamount; i++) {
-        std::cout<<viruses[i]<<std::endl;
+        std::cout << viruses[i] << std::endl;
         delete viruses[i];
     }
     std::cout << "debug: deleted viruses" << std::endl;
@@ -70,19 +70,35 @@ Culture::sort()
     for (int i = 0; i < virusesamount; i++) {
         factor[i] = target->calculate_factor(*viruses[i]);
     }
-
+#define DEBUG_FACTOR
+#ifdef DEBUG_FACTOR
     for (int i = 0; i < virusesamount; i++) {
+        std::cout << "debug: Culture::sort: factor=" << factor[i] << std::endl
+                  << std::endl;
+    }
+#endif // DEBUG_FACTOR
+
+    for (int i = 1; i < virusesamount; i++) {
         double cur = factor[i];
         Virus curv(*viruses[i]);
-        for (int j = i; j > 0; j--) {
-            if (factor[j] < factor[j - 1]) {
-                factor[j] = factor[j - 1];
-                *viruses[j] = *viruses[j - 1];
+        int j = 0;
+        for (j = i-1; j >= 0; j--) {
+            if (cur < factor[j]) {//// not factor!! but compare cur
+                factor[j+1] = factor[j];
+                *viruses[j+1] = *viruses[j];
             } else {
-                factor[j] = cur;
-                *viruses[j] = curv;
+                j--;
                 break;
             }
         }
+        j++;
+        factor[j] = cur;
+        *viruses[j] = curv;
     }
+
+#ifdef DEBUG_FACTOR
+    for (int i = 0; i < virusesamount; i++) {
+        std::cout << "debug: Culture::sort: factor=" << factor[i] << std::endl;
+    }
+#endif // DEBUG_FACTOR
 }

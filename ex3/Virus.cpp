@@ -39,6 +39,7 @@ Virus::operator=(Virus& other)
     for (int i = 0; i < size; i++) {
         genome[i] = other.genome[i];
     }
+    name = other.name;
     return *this;
 }
 Virus::Virus(Virus&& other)
@@ -74,11 +75,12 @@ Virus::calculate_factor(const Virus& other)
 {
     double countmisfits = 0;
     for (int i = 0; i < size; i++) {
-        std::cout << "debug: Virus::calculate_factor(): iteration " << i
-                  << std::endl;
+        // std::cout << "debug: Virus::calculate_factor(): iteration " << i
+        //           << std::endl;
         if (genome[i] == other.genome[i])
             countmisfits++;
     }
+    std::cout << "debug: calculate factor: " << countmisfits << std::endl;
 
     return 1 - (countmisfits / size);
 }
