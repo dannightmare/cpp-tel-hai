@@ -23,7 +23,7 @@ Virus* target = nullptr;
 int virusesamount = 0;
 Culture* culture = nullptr;
 
-// #define DEBUG
+#define DEBUG
 
 int*
 string_to_vector(const std::string str);
@@ -31,7 +31,7 @@ string_to_vector(const std::string str);
 int
 main(int argc, char** argv)
 {
-    if (argc < 2) {
+    if (argc != 3) {
         std::cerr
           << "Usage: run the program with <init file name> <location file name>"
           << std::endl;
