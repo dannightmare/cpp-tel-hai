@@ -4,11 +4,11 @@ Culture::Culture(const std::string* names,
                  int** matrix,
                  int virusesamount,
                  int viruslength,
-                 Virus target,
+                 Virus* target,
                  int mutations)
   : virusesamount(virusesamount)
   , viruslength(viruslength)
-  , target(target)
+  , target(new Virus(*target))
   , mutations(mutations)
 {
     viruses = new Virus*[virusesamount];
@@ -20,11 +20,15 @@ Culture::Culture(const std::string* names,
 
 Culture::~Culture()
 {
+    std::cout << "debug: started deletion of culture " << std::endl;
+
     for (int i = 0; i < virusesamount; i++) {
-        delete[] viruses[i];
+        std::cout<<viruses[i]<<std::endl;
+        delete viruses[i];
     }
+    std::cout << "debug: deleted viruses" << std::endl;
     delete[] viruses;
-    delete &target;
+    delete target;
 }
 
 Virus&
@@ -64,7 +68,7 @@ Culture::sort()
 {
     double factor[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
-        factor[i] = target.calculate_factor(*viruses[i]);
+        factor[i] = target->calculate_factor(*viruses[i]);
     }
 
     for (int i = 0; i < virusesamount; i++) {

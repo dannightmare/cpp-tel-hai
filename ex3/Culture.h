@@ -6,7 +6,7 @@
 
 class Culture
 {
-    Virus target;
+    Virus *target;
     Virus** viruses = nullptr;
     int virusesamount;
     int viruslength;
@@ -19,7 +19,7 @@ class Culture
             int** matrix,
             int virusesamount,
             int viruslength,
-            Virus target,
+            Virus *target,
             int mutations);
     ~Culture();
 
@@ -27,6 +27,7 @@ class Culture
     Virus& operator[](int i);
 
     void operator++(int);
+
 };
 
 #endif // CULTURE_H

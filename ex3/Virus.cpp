@@ -16,7 +16,6 @@ Virus::Virus(const std::string& name, int* genome, int size)
     for (int i = 0; i < size; i++) {
         this->genome[i] = genome[i];
     }
-    delete[] genome;
 }
 
 Virus::~Virus()
@@ -75,7 +74,8 @@ Virus::calculate_factor(const Virus& other)
 {
     double countmisfits = 0;
     for (int i = 0; i < size; i++) {
-        std::cout << "debug: Virus::calculate_factor(): iteration " << i << std::endl;
+        std::cout << "debug: Virus::calculate_factor(): iteration " << i
+                  << std::endl;
         if (genome[i] == other.genome[i])
             countmisfits++;
     }
@@ -93,8 +93,8 @@ Virus::variant()
     if (underscore == -1) {
         name = name + "_1";
     } else {
-        int variant = std::stoi(name.substr(underscore+1));
-        name = name.substr(0,underscore) + "_" + std::to_string(variant+1);
+        int variant = std::stoi(name.substr(underscore + 1));
+        name = name.substr(0, underscore) + "_" + std::to_string(variant + 1);
     }
     // std::cout << name << " got to mid of variant()" << std::endl;
 
@@ -108,7 +108,18 @@ Virus::variant()
 }
 
 std::string
-Virus::getName()
+Virus::getName() const
 {
     return name;
+}
+
+std::ostream&
+operator<<(std::ostream& out, const Virus& virus)
+{
+    std::cout << virus.getName() << " ";
+    for (int i = 0; i < virus.size; i++) {
+        std::cout << virus.genome[i] << " ";
+    }
+    std::cout << std::endl;
+    return out;
 }

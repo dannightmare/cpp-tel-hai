@@ -1,5 +1,5 @@
-#include <string>
 #include <iostream>
+#include <string>
 
 #ifndef VIRUS_H
 #define VIRUS_H
@@ -22,9 +22,11 @@ class Virus
 
     double calculate_factor(const Virus& other);
     Virus& variant();
-    std::string getName();
+    std::string getName() const;
 
     void operator*();
+
+    friend std::ostream& operator<<(std::ostream & out, const Virus& virus);
 };
 
 #endif // VIRUS_H

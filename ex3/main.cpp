@@ -1,12 +1,8 @@
 #include "Culture.h"
 #include "Virus.h"
-// #include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <sstream>
-#include <string>
-#include <utility>
 
 const int MAXITERATIONS = 1000000;
 const int MAXVIRUSES = 10000;
@@ -119,8 +115,8 @@ main(int argc, char** argv)
     }
 #endif // DEBUG
 
-    culture = new Culture(
-      names, matrix, virusesamount, viruslength, *target, mutations);
+    culture =
+      new Culture(names, matrix, virusesamount, viruslength, target, mutations);
     // target = nullptr;
 
     std::cout << "input iterations: ";
@@ -129,27 +125,53 @@ main(int argc, char** argv)
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
+    Virus bestvirus((*culture)[0]);
+    double bestvirusfactor = target->calculate_factor(bestvirus);
+
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
 #ifdef DEBUG
         std::cout << "iter " << i << std::endl;
 #endif // DEBUG
-        if (target->calculate_factor((*culture)[0])) {
+        double newfactor = target->calculate_factor((*culture)[0]);
+        if (newfactor == 0) {
 #ifdef DEBUG
             std::cout << "if " << i << std::endl;
 #endif // DEBUG
+
+            bestvirus = (*culture)[0];
             break;
         }
+        if (newfactor < bestvirusfactor) {
+            bestvirusfactor = newfactor;
+            bestvirus = (*culture)[0];
+        }
     }
+
+    for (int i = 0; i < virusesamount; i++) {
+        std::cout << "debug2: " << i << std::endl;
+
+        std::cout << (*culture)[i];
+        std::cout << std::endl;
+        std::cout << "debug: " << i << std::endl;
+    }
+    std::cout << std::endl << bestvirus << std::endl;
 
     ////////////////////////////////////////////////////////////////
     /// DELETE EVERYTHING
     delete target;
+#ifdef DEBUG
+    std::cout << "debug: deleted target" << std::endl;
+#endif // DEBUG
     delete culture;
+#ifdef DEBUG
+    std::cout << "debug: deleted culture" << std::endl;
+#endif // DEBUG
 
     for (int i = 0; i < virusesamount; i++) {
-        delete[] matrix[i];
+        delete matrix[i];
     }
+
     return 0;
 }
 
