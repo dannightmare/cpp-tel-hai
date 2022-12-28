@@ -60,7 +60,7 @@ Virus::operator*()
 
     if (x == y)
         return;
-    
+
     int tmp = genome[x];
     genome[x] = genome[y];
     genome[y] = tmp;
@@ -106,9 +106,9 @@ Virus::getName() const
 std::ostream&
 operator<<(std::ostream& out, const Virus& virus)
 {
-    std::cout << virus.getName();
+    std::cout << virus.getName() << '\t';
     for (int i = 0; i < virus.size; i++) {
-        std::cout << " " << virus.genome[i];
+        std::cout << virus.genome[i] << " ";
     }
     return out;
 }

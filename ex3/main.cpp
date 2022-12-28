@@ -89,7 +89,7 @@ main(int argc, char** argv)
       new Culture(names, matrix, virusesamount, viruslength, target, mutations);
     // target = nullptr;
 
-    std::cout << "input iterations: ";
+    // std::cout << "input iterations: ";
     std::cin >> totaliterations;
 
     ////////////////////////////////////////////////////////////////
