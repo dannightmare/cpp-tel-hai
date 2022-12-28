@@ -21,7 +21,6 @@ Culture* culture = nullptr;
 
 // after finishing setup
 int totaliterations = 0;
-// #define DEBUG
 
 int*
 string_to_vector(const std::string& str);
@@ -63,29 +62,8 @@ main(int argc, char** argv)
     std::getline(config, tmp);
     std::getline(config, tmp);
 
-#ifdef DEBUG_CONFIG
-    std::cout << "viruslength=" << viruslength << std::endl;
-    std::cout << "mutations=" << mutations << std::endl;
-    std::cout << "tmp=" << tmp << std::endl;
-#endif // DEBUG
-
     int* v = string_to_vector(tmp);
     target = new Virus("target", v, viruslength);
-
-// #define DEBUG_VARIANT
-#ifdef DEBUG_VARIANT
-    std::cout << "target=" << target->getName() << std::endl;
-    Virus variant(target->variant());
-    std::cout << "variant=" << variant.getName() << std::endl;
-    std::cout << "variant's-variant=" << variant.variant().getName()
-              << std::endl;
-    for (int i = 0; i < viruslength; i++) {
-        std::cout << v[i] << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "target is=" << *target << std::endl;
-    std::cout << "variant is=" << variant << std::endl;
-#endif // DEBUG
 
     delete v;
 
@@ -107,24 +85,12 @@ main(int argc, char** argv)
         matrix[i] = string_to_vector(tmp);
     }
 
-#ifdef DEBUG_MATRIX
-    std::cout << "matrix:" << std::endl;
-    for (int i = 0; i < virusesamount; i++) {
-        for (int j = 0; j < viruslength; j++) {
-            std::cout << matrix[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-#endif // DEBUG
-
     culture =
       new Culture(names, matrix, virusesamount, viruslength, target, mutations);
     // target = nullptr;
 
     std::cout << "input iterations: ";
     std::cin >> totaliterations;
-
-    
 
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
@@ -134,14 +100,9 @@ main(int argc, char** argv)
 
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
-#ifdef DEBUG_ITER
-        std::cout << "iter " << i << std::endl;
-#endif // DEBUG
+
         double newfactor = target->calculate_factor((*culture)[0]);
         if (newfactor == 0) {
-#ifdef DEBUG_ITER
-            std::cout << "if " << i << std::endl;
-#endif // DEBUG
 
             bestvirus = (*culture)[0];
             break;
@@ -153,24 +114,15 @@ main(int argc, char** argv)
     }
 
     for (int i = 0; i < virusesamount; i++) {
-        // std::cout << "debug2: " << i << std::endl;
-        // std::cout << "debug3: vector pointer " << &(*culture)[i] << std::endl;
-        // std::cout << "debug4: " << sizeof(Virus) << std::endl;
         std::cout << (*culture)[i] << std::endl;
-        // std::cout << "debug: " << i << std::endl;
     }
     std::cout << std::endl << bestvirus << std::endl;
 
     ////////////////////////////////////////////////////////////////
     /// DELETE EVERYTHING
+
     delete target;
-#ifdef DEBUG
-    std::cout << "debug: deleted target" << std::endl;
-#endif // DEBUG
     delete culture;
-#ifdef DEBUG
-    std::cout << "debug: deleted culture" << std::endl;
-#endif // DEBUG
 
     for (int i = 0; i < virusesamount; i++) {
         delete matrix[i];

@@ -75,8 +75,6 @@ Virus::calculate_factor(const Virus& other)
 {
     double countmisfits = 0;
     for (int i = 0; i < size; i++) {
-        // std::cout << "debug: Virus::calculate_factor(): iteration " << i
-        //           << std::endl;
         if (genome[i] == other.genome[i])
             countmisfits++;
     }
@@ -90,7 +88,6 @@ Virus::variant()
 {
     std::string name = this->name;
     int underscore = name.find("_");
-    // std::cout << name << " got to start of variant()" << std::endl;
 
     if (underscore == -1) {
         name = name + "_1";
@@ -98,14 +95,10 @@ Virus::variant()
         int variant = std::stoi(name.substr(underscore + 1));
         name = name.substr(0, underscore) + "_" + std::to_string(variant + 1);
     }
-    // std::cout << name << " got to mid of variant()" << std::endl;
 
     Virus* virus = new Virus(*this);
-    // std::cout << name << " got to postmid of variant()" << std::endl;
 
     virus->name = name;
-    /// debug
-    // std::cout << name << " got to end of variant()" << std::endl;
     return *virus;
 }
 
