@@ -14,6 +14,7 @@ Culture::Culture(const std::string* names,
     viruses = new Virus*[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
         viruses[i] = new Virus(names[i], matrix[i], viruslength);
+        std::cout << "debug: Culture c'tor virus pointer: " << viruses[i] << std::endl;
     }
     sort();
 }
@@ -39,7 +40,7 @@ Culture::getVirus(int i)
         std::cerr << "getVirus index out of bounds " << i << std::endl;
         exit(8);
     }
-    return (*viruses)[i];
+    return *viruses[i];
 }
 
 Virus&
@@ -82,14 +83,9 @@ Culture::sort()
         double cur = factor[i];
         Virus curv(*viruses[i]);
         int j = 0;
-        for (j = i-1; j >= 0; j--) {
-            if (cur < factor[j]) {//// not factor!! but compare cur
-                factor[j+1] = factor[j];
-                *viruses[j+1] = *viruses[j];
-            } else {
-                j--;
-                break;
-            }
+        for (j = i - 1; j >= 0 && cur < factor[j]; j--) {
+            factor[j + 1] = factor[j];
+            *viruses[j + 1] = *viruses[j];
         }
         j++;
         factor[j] = cur;

@@ -21,7 +21,7 @@ Culture* culture = nullptr;
 
 // after finishing setup
 int totaliterations = 0;
-#define DEBUG
+// #define DEBUG
 
 int*
 string_to_vector(const std::string& str);
@@ -124,6 +124,8 @@ main(int argc, char** argv)
     std::cout << "input iterations: ";
     std::cin >> totaliterations;
 
+    
+
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
@@ -151,12 +153,11 @@ main(int argc, char** argv)
     }
 
     for (int i = 0; i < virusesamount; i++) {
-        std::cout << "debug2: " << i << std::endl;
-        std::cout << "debug3: vector pointer " << &(*culture)[i] << std::endl;
-        std::cout << "debug4: " << sizeof(Virus) << std::endl;
-        std::cout << (*culture)[i];
-        std::cout << std::endl;
-        std::cout << "debug: " << i << std::endl;
+        // std::cout << "debug2: " << i << std::endl;
+        // std::cout << "debug3: vector pointer " << &(*culture)[i] << std::endl;
+        // std::cout << "debug4: " << sizeof(Virus) << std::endl;
+        std::cout << (*culture)[i] << std::endl;
+        // std::cout << "debug: " << i << std::endl;
     }
     std::cout << std::endl << bestvirus << std::endl;
 
