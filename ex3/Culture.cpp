@@ -30,23 +30,27 @@ Culture::~Culture()
 Virus&
 Culture::getVirus(int i)
 {
+    std::cout << "debug: Culture::getVirus(int i): " << i << std::endl;
     if (i < 0 || i >= virusesamount) {
         std::cerr << "getVirus index out of bounds " << i << std::endl;
         exit(8);
     }
-    return *viruses[i];
+    return (*viruses)[i];
 }
 
 Virus&
 Culture::operator[](int i)
 {
+    std::cout << "debug: Culture::operator[](int i) = " << i << std::endl;
     return getVirus(i);
 }
 
 void
 Culture::operator++(int)
 {
+    std::cout << "debug: Culture::operator++(int)" << std::endl;
     for (int i = 0; i < virusesamount; i++) {
+        std::cout << "debug: Culture::operator++: iter " << i << std::endl;
         for (int j = 0; j < mutations; j++)
             *(*viruses[i]);
     }

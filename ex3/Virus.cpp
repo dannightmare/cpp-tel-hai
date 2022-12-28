@@ -16,6 +16,7 @@ Virus::Virus(const std::string& name, int* genome, int size)
     for (int i = 0; i < size; i++) {
         this->genome[i] = genome[i];
     }
+    delete[] genome;
 }
 
 Virus::~Virus()
@@ -74,6 +75,7 @@ Virus::calculate_factor(const Virus& other)
 {
     double countmisfits = 0;
     for (int i = 0; i < size; i++) {
+        std::cout << "debug: Virus::calculate_factor(): iteration " << i << std::endl;
         if (genome[i] == other.genome[i])
             countmisfits++;
     }

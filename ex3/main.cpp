@@ -23,10 +23,12 @@ Virus* target = nullptr;
 int virusesamount = 0;
 Culture* culture = nullptr;
 
+// after finishing setup
+int totaliterations = 0;
 #define DEBUG
 
 int*
-string_to_vector(const std::string str);
+string_to_vector(const std::string& str);
 
 int
 main(int argc, char** argv)
@@ -52,6 +54,10 @@ main(int argc, char** argv)
     }
 
     std::string tmp;
+
+    ////////////////////////////////////////////////////////////////
+    /// read from configuration file
+
     config >> viruslength >> mutations;
     if (viruslength < MINVIRUSLENGTH || viruslength > MAXVIRUSLENGTH) {
         std::cerr << "virus length is inappropriate" << std::endl;
@@ -85,6 +91,9 @@ main(int argc, char** argv)
 
     delete v;
 
+    ////////////////////////////////////////////////////////////////
+    /// read from first generation file
+
     first_generation >> virusesamount;
     std::getline(first_generation, tmp);
     if (virusesamount < 2) {
@@ -114,12 +123,21 @@ main(int argc, char** argv)
       names, matrix, virusesamount, viruslength, *target, mutations);
     // target = nullptr;
 
+    std::cout << "input iterations: ";
+    std::cin >> totaliterations;
+
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
-    for (int i = 0; i < MAXITERATIONS; i++) {
-        culture++;
+    for (int i = 0; i < totaliterations; i++) {
+        (*culture)++;
+#ifdef DEBUG
+        std::cout << "iter " << i << std::endl;
+#endif // DEBUG
         if (target->calculate_factor((*culture)[0])) {
+#ifdef DEBUG
+            std::cout << "if " << i << std::endl;
+#endif // DEBUG
             break;
         }
     }
@@ -136,10 +154,11 @@ main(int argc, char** argv)
 }
 
 int*
-string_to_vector(const std::string str)
+string_to_vector(const std::string& str)
 {
     std::stringstream ss(str);
     int* v = new int[viruslength];
+
     for (int i = 0; i < viruslength; i++) {
         if (ss.eof()) {
             std::cerr << "Vector too short" << std::endl;
