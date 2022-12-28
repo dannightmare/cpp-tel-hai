@@ -139,13 +139,13 @@ string_to_vector(const std::string& str)
 
     for (int i = 0; i < viruslength; i++) {
         if (ss.eof()) {
-            std::cerr << "Vector too short" << std::endl;
+            std::cerr << "Invalid input." << std::endl;
             exit(5);
         }
         ss >> v[i];
     }
     if (!ss.eof()) {
-        std::cerr << "Vector too long" << std::endl;
+        std::cerr << "Invalid input." << std::endl;
         exit(6);
     }
     return v;

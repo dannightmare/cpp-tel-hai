@@ -20,9 +20,7 @@ Culture::Culture(const std::string* names,
 
 Culture::~Culture()
 {
-
     for (int i = 0; i < virusesamount; i++) {
-        std::cout << viruses[i] << std::endl;
         delete viruses[i];
     }
     delete[] viruses;

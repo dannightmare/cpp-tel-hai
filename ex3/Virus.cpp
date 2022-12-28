@@ -1,13 +1,6 @@
 #include "Virus.h"
 #include <string>
 
-// Virus::Virus()
-//   : size(0)
-//   , genome(nullptr)
-//   , name("")
-// {
-// }
-
 Virus::Virus(const std::string& name, int* genome, int size)
   : size(size)
   , name(name)
@@ -62,9 +55,12 @@ Virus::operator=(Virus&& other)
 void
 Virus::operator*()
 {
-    int x = rand() % size + 1;
-    int y = rand() % size + 1;
+    int x = rand() % size;
+    int y = rand() % size;
 
+    if (x == y)
+        return;
+    
     int tmp = genome[x];
     genome[x] = genome[y];
     genome[y] = tmp;
@@ -110,10 +106,9 @@ Virus::getName() const
 std::ostream&
 operator<<(std::ostream& out, const Virus& virus)
 {
-    std::cout << virus.getName() << " ";
+    std::cout << virus.getName();
     for (int i = 0; i < virus.size; i++) {
-        std::cout << virus.genome[i] << " ";
+        std::cout << " " << virus.genome[i];
     }
-    std::cout << std::endl;
     return out;
 }
