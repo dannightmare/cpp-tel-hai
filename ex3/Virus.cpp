@@ -78,7 +78,6 @@ Virus::calculate_factor(const Virus& other)
         if (genome[i] == other.genome[i])
             countmisfits++;
     }
-    std::cout << "debug: calculate factor: " << countmisfits << std::endl;
 
     return 1 - (countmisfits / size);
 }
