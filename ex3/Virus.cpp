@@ -28,6 +28,9 @@ Virus::Virus(Virus& other)
 Virus&
 Virus::operator=(Virus& other)
 {
+    if (this == &other) {
+        return *this;
+    }
     // size stays unchanged
     for (int i = 0; i < size; i++) {
         genome[i] = other.genome[i];
@@ -45,6 +48,9 @@ Virus::Virus(Virus&& other)
 Virus&
 Virus::operator=(Virus&& other)
 {
+    if (this == &other) {
+        return *this;
+    }
     delete[] genome;
     genome = other.genome;
     other.genome = nullptr;
