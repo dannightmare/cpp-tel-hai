@@ -28,6 +28,8 @@ class Culture
 
     void operator++(int);
 
+    double calculate_factor(Virus& virus1, Virus& virus2);
+
 };
 
 #endif // CULTURE_H

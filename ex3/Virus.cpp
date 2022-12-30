@@ -72,6 +72,19 @@ Virus::operator*()
     genome[y] = tmp;
 }
 
+int Virus::operator[](int n) const {
+    return getNum(n);
+}
+
+int Virus::getNum(int n) const {
+    if(n < 0 || n > size) {
+        std::cerr << "Virus::getNum(int n): " << n << " out of bounds" << std::endl;
+        exit(20);
+    }
+    return genome[n];
+}
+
+// TODO: delete this function
 double
 Virus::calculate_factor(const Virus& other)
 {
