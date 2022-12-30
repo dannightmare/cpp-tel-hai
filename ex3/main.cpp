@@ -96,12 +96,12 @@ main(int argc, char** argv)
     /// FINISHED SETUP
 
     Virus bestvirus((*culture)[0]);
-    double bestvirusfactor = target->calculate_factor(bestvirus);
+    double bestvirusfactor = culture->calculate_factor(*target, bestvirus);
 
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
 
-        double newfactor = target->calculate_factor((*culture)[0]);
+        double newfactor = culture->calculate_factor(*target, (*culture)[0]);
         if (newfactor == 0) {
 
             bestvirus = (*culture)[0];

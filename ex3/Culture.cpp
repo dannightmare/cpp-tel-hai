@@ -60,7 +60,7 @@ Culture::sort()
 {
     double factor[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
-        factor[i] = target->calculate_factor(*viruses[i]);
+        factor[i] = calculate_factor(*target, *viruses[i]);
     }
 
     for (int i = 1; i < virusesamount; i++) {
@@ -75,4 +75,16 @@ Culture::sort()
         factor[j] = cur;
         *viruses[j] = curv;
     }
+}
+
+double
+Culture::calculate_factor(Virus& virus1, Virus& virus2)
+{
+    double countmisfits = 0;
+    for (int i = 0; i < viruslength; i++) {
+        if (virus1[i] == virus2[i])
+            countmisfits++;
+    }
+
+    return 1 - (countmisfits / viruslength);
 }

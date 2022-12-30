@@ -20,9 +20,10 @@ class Virus
     Virus(Virus&& other);
     Virus& operator=(Virus&& other);
 
-    double calculate_factor(const Virus& other);
+    int operator[](int n) const;
     Virus& variant();
     std::string getName() const;
+    int getNum(int n) const;
 
     void operator*();
 

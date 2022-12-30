@@ -72,17 +72,19 @@ Virus::operator*()
     genome[y] = tmp;
 }
 
-double
-Virus::calculate_factor(const Virus& other)
-{
-    double countmisfits = 0;
-    for (int i = 0; i < size; i++) {
-        if (genome[i] == other.genome[i])
-            countmisfits++;
-    }
-
-    return 1 - (countmisfits / size);
+int Virus::operator[](int n) const {
+    return getNum(n);
 }
+
+int Virus::getNum(int n) const {
+    if(n < 0 || n > size) {
+        std::cerr << "Virus::getNum(int n): " << n << " out of bounds" << std::endl;
+        exit(20);
+    }
+    return genome[n];
+}
+
+
 
 Virus&
 Virus::variant()
