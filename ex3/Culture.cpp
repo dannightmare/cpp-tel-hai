@@ -11,8 +11,12 @@ Culture::Culture(const std::string* names,
   , target(new Virus(*target))
   , mutations(mutations)
 {
+    variants = new int[viruslength];
+    names = new std::string[viruslength];
     viruses = new Virus*[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
+        variants[i] = 0;
+        this->names[i] = names[i];
         viruses[i] = new Virus(names[i], matrix[i], viruslength);
     }
     sort();
@@ -25,6 +29,8 @@ Culture::~Culture()
     }
     delete[] viruses;
     delete target;
+    delete[] names;
+    delete[] variants;
 }
 
 Virus&
@@ -87,4 +93,24 @@ Culture::calculate_factor(Virus& virus1, Virus& virus2)
     }
 
     return 1 - (countmisfits / viruslength);
+}
+
+Virus&
+Culture::variant(Virus& virus)
+{
+    /// TODO: finish this function, it was just moved from Virus.cpp
+    std::string name = virus.getName(); // fixed this line already
+    int underscore = name.find("_");
+
+    if (underscore == -1) {
+        name = name + "_1";
+    } else {
+        int variant = std::stoi(name.substr(underscore + 1));
+        name = name.substr(0, underscore) + "_" + std::to_string(variant + 1);
+    }
+
+    Virus* virus = new Virus(*this);
+
+    virus->name = name;
+    return *virus;
 }

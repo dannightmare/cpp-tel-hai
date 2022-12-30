@@ -120,5 +120,3 @@ operator<<(std::ostream& out, const Virus& virus)
     }
     return out;
 }
-
-// test

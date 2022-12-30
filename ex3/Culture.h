@@ -6,11 +6,13 @@
 
 class Culture
 {
-    Virus *target;
-    Virus** viruses = nullptr;
+    Virus* target;             // single virus object
+    Virus** viruses = nullptr; // matrix of viruses
     int virusesamount;
     int viruslength;
     int mutations;
+    std::string* names; // array
+    int* variants;      // array
 
     void sort();
 
@@ -19,7 +21,7 @@ class Culture
             int** matrix,
             int virusesamount,
             int viruslength,
-            Virus *target,
+            Virus* target,
             int mutations);
     ~Culture();
 
@@ -30,6 +32,7 @@ class Culture
 
     double calculate_factor(Virus& virus1, Virus& virus2);
 
+    Virus& variant(Virus& virus);
 };
 
 #endif // CULTURE_H
