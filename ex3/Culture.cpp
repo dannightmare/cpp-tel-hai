@@ -107,7 +107,7 @@ Culture::variant(Virus& virus)
         }
     }
 
-#define DEBUG_VARIANT
+// #define DEBUG_VARIANT
 #ifdef DEBUG_VARIANT
     std::cout << "debug: Culture::variant(): variant=" << variant << std::endl;
 #endif // DEBUG_VARIANT

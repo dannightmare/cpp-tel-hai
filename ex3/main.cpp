@@ -84,7 +84,7 @@ main(int argc, char** argv)
         std::getline(first_generation, tmp);
         matrix[i] = string_to_vector(tmp);
     }
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
     std::cout<< "debug: before creation of culture" << std::endl;
 #endif // DEBUG
