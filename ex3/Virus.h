@@ -10,6 +10,7 @@ class Virus
     int size;
     int* genome;
     std::string name;
+    int variant = 0;
 
   public:
     Virus() = delete;
@@ -21,9 +22,9 @@ class Virus
     Virus& operator=(Virus&& other);
 
     int operator[](int n) const;
-    Virus& variant();
     std::string getName() const;
     int getNum(int n) const;
+    void setVariant(int variant);
 
     void operator*();
 

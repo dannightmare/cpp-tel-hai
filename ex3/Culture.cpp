@@ -58,7 +58,7 @@ Culture::operator++(int)
     }
 
     sort();
-    *viruses[virusesamount - 1] = viruses[0]->variant();
+    *viruses[virusesamount - 1] = variant(*viruses[0]);
 }
 
 void
@@ -98,19 +98,22 @@ Culture::calculate_factor(Virus& virus1, Virus& virus2)
 Virus&
 Culture::variant(Virus& virus)
 {
-    /// TODO: finish this function, it was just moved from Virus.cpp
-    std::string name = virus.getName(); // fixed this line already
-    int underscore = name.find("_");
-
-    if (underscore == -1) {
-        name = name + "_1";
-    } else {
-        int variant = std::stoi(name.substr(underscore + 1));
-        name = name.substr(0, underscore) + "_" + std::to_string(variant + 1);
+    // find which variant is next
+    std::string name = virus.getName();
+    int variant = 0;
+    for (int i = 0; i < viruslength; i++) {
+        if (name == names[i]) {
+            variant = ++(variants[i]);
+        }
     }
+    
+    // create a new virus with the new variant
 
-    Virus* virus = new Virus(*this);
+    Virus* virus_ret = new Virus(virus);
 
-    virus->name = name;
-    return *virus;
+    virus_ret->setVariant(variant);
+    return *virus_ret;
+    // and return it
+
+    // the variant table should be updated
 }

@@ -25,6 +25,7 @@ Virus::Virus(Virus& other)
     }
     name = other.name;
 }
+
 Virus&
 Virus::operator=(Virus& other)
 {
@@ -72,37 +73,21 @@ Virus::operator*()
     genome[y] = tmp;
 }
 
-int Virus::operator[](int n) const {
+int
+Virus::operator[](int n) const
+{
     return getNum(n);
 }
 
-int Virus::getNum(int n) const {
-    if(n < 0 || n > size) {
-        std::cerr << "Virus::getNum(int n): " << n << " out of bounds" << std::endl;
+int
+Virus::getNum(int n) const
+{
+    if (n < 0 || n > size) {
+        std::cerr << "Virus::getNum(int n): " << n << " out of bounds"
+                  << std::endl;
         exit(20);
     }
     return genome[n];
-}
-
-
-
-Virus&
-Virus::variant()
-{
-    std::string name = this->name;
-    int underscore = name.find("_");
-
-    if (underscore == -1) {
-        name = name + "_1";
-    } else {
-        int variant = std::stoi(name.substr(underscore + 1));
-        name = name.substr(0, underscore) + "_" + std::to_string(variant + 1);
-    }
-
-    Virus* virus = new Virus(*this);
-
-    virus->name = name;
-    return *virus;
 }
 
 std::string
@@ -114,9 +99,25 @@ Virus::getName() const
 std::ostream&
 operator<<(std::ostream& out, const Virus& virus)
 {
-    std::cout << virus.getName() << '\t';
-    for (int i = 0; i < virus.size; i++) {
-        std::cout << virus.genome[i] << " ";
+    out << virus.getName();
+    if (virus.variant != 0) {
+        out << "_" << virus.variant;
     }
+    out << "\t";
+
+    for (int i = 0; i < virus.size; i++) {
+        out << virus.genome[i] << " ";
+    }
+    
     return out;
+}
+
+void
+Virus::setVariant(int variant)
+{
+    if (variant <= 0) {
+        std::cerr << "Virus::setVariant: variant invalid" << std::endl;
+        exit(25);
+    }
+    this->variant = variant;
 }
