@@ -12,7 +12,7 @@ Culture::Culture(const std::string* names,
   , mutations(mutations)
 {
     variants = new int[viruslength];
-    names = new std::string[viruslength];
+    this->names = new std::string[viruslength];
     viruses = new Virus*[virusesamount];
     for (int i = 0; i < virusesamount; i++) {
         variants[i] = 0;
@@ -102,10 +102,15 @@ Culture::variant(Virus& virus)
     std::string name = virus.getName();
     int variant = 0;
     for (int i = 0; i < viruslength; i++) {
-        if (name == names[i]) {
+        if (name.compare(names[i]) == 0) {
             variant = ++(variants[i]);
         }
     }
+
+#define DEBUG_VARIANT
+#ifdef DEBUG_VARIANT
+    std::cout << "debug: Culture::variant(): variant=" << variant << std::endl;
+#endif // DEBUG_VARIANT
     
     // create a new virus with the new variant
 

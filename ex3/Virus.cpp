@@ -24,6 +24,7 @@ Virus::Virus(Virus& other)
         genome[i] = other.genome[i];
     }
     name = other.name;
+    variant = other.variant;
 }
 
 Virus&
@@ -37,6 +38,7 @@ Virus::operator=(Virus& other)
         genome[i] = other.genome[i];
     }
     name = other.name;
+    variant = other.variant;
     return *this;
 }
 Virus::Virus(Virus&& other)
@@ -45,7 +47,9 @@ Virus::Virus(Virus&& other)
     other.genome = nullptr;
     size = other.size;
     name = other.name;
+    variant = other.variant;
 }
+
 Virus&
 Virus::operator=(Virus&& other)
 {
@@ -56,6 +60,7 @@ Virus::operator=(Virus&& other)
     genome = other.genome;
     other.genome = nullptr;
     name = other.name;
+    variant = other.variant;
     return *this;
 }
 
