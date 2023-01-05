@@ -10,6 +10,33 @@ swap(T* a, T* b)
     a = b;
     b = tmp;
 }
+
+template<class T>
+class Node
+{
+    Node<T>* next;
+    T& value;
+
+  public:
+    Node<T>()
+      : next(nullptr)
+      , value(0)
+    {}
+    Node<T>(T& value)
+      : next(nullptr)
+      , value(value)
+    {}
+    Node<T>(Node* other, T& value)
+      : next(other)
+      , value(value)
+    {}
+
+    // getters/setters
+    void setNext(Node* node) { next = node; }
+    void setValue(T& value) { this->value = value; }
+    Node* getNext() { return next; }
+    T& getValue() { return value; }
+};
 /**
  * this class requires that the T class has the following:
  * operator=
@@ -60,7 +87,8 @@ class Queue
     void Enqueue(T& value)
     {
         tail = (tail + 1) % size;
-        if(tail == head) throw std::exception();
+        if (tail == head)
+            throw std::exception();
         *array[tail] = value;
     }
     void EnqueueSorted(T& value)
