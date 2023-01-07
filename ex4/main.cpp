@@ -86,7 +86,7 @@ main(int argc, char** argv)
     }
 // #define DEBUG
 #ifdef DEBUG
-    std::cout<< "debug: before creation of culture" << std::endl;
+    std::cout << "debug: before creation of culture" << std::endl;
 #endif // DEBUG
     culture =
       new Culture(names, matrix, virusesamount, viruslength, target, mutations);
