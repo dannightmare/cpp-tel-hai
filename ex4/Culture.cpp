@@ -7,10 +7,13 @@ Culture::Culture(const std::string* names,
                  Virus* target,
                  int mutations)
   : viruslength(viruslength)
-  , target(new Virus(*target))
   , virusesamount(virusesamount)
   , mutations(mutations)
 {
+    if (this->target == nullptr) {
+        this->target = new Virus(*target);
+    }
+
     variants = new int[viruslength];
     this->names = new std::string[viruslength];
     viruses = new Virus*[virusesamount];
@@ -84,9 +87,10 @@ Culture::sort()
 }
 
 double
-Culture::calculate_factor(Virus& virus1, Virus& virus2)
+Culture::calculate_factor(const Virus& virus1, const Virus& virus2)
 {
     double countmisfits = 0;
+    int viruslength = virus1.getSize();
     for (int i = 0; i < viruslength; i++) {
         if (virus1[i] == virus2[i])
             countmisfits++;
@@ -121,4 +125,11 @@ Culture::variant(Virus& virus)
     // and return it
 
     // the variant table should be updated
+}
+
+bool
+operator<(const Virus& virus1, const Virus& virus2)
+{
+    return Culture::calculate_factor(virus1, *Culture::target) <
+           Culture::calculate_factor(virus2, *Culture::target);
 }

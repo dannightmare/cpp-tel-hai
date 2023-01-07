@@ -8,7 +8,7 @@
 class Culture
 {
     int viruslength;
-    Virus* target;             // single virus object
+    static Virus* target;             // single virus object
     Virus** viruses = nullptr; // matrix of viruses
     int virusesamount;
     int mutations;
@@ -31,9 +31,11 @@ class Culture
 
     void operator++(int);
 
-    double calculate_factor(Virus& virus1, Virus& virus2);
+    static double calculate_factor(const Virus& virus1, const Virus& virus2);
 
     Virus& variant(Virus& virus);
+
+    friend bool operator<(const Virus& virus1, const Virus& virus2);
 };
 
 #endif // CULTURE_H
