@@ -28,6 +28,26 @@ string_to_vector(const std::string& str);
 int
 main(int argc, char** argv)
 {
+    // int x = 0, y = 2, z = 10, w = 5;
+    // Queue<int>* queue = new Queue<int>();
+    // queue->Enqueue(x);
+    // queue->Enqueue(y);
+    // queue->Enqueue(z);
+    // queue->Enqueue(w);
+    // std::cout << x << std::endl;
+    // x = 4;
+    // std::cout << queue->Dequeue() << std::endl;
+    // queue->Dequeue();
+    // queue->Dequeue();
+    // queue->Dequeue();
+    // queue->Dequeue();
+    // queue->Enqueue(x);
+    // std::cout << queue->Dequeue() << std::endl;
+    // queue->sort();
+    // queue->clear();
+    // std::cout << *queue << std::endl;
+    // return 0;
+    
     if (argc != 3) {
         std::cerr
           << "Usage: run the program with <init file name> <location file name>"
