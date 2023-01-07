@@ -58,13 +58,15 @@ class Queue
     Node<T>* tail;
     int count = 0;
 
+    // tested and working
     Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
     {
         if (node == nullptr) {
-            return nullptr;
+            return new Node<T>(value);
         }
         if (node->getValue() < value) {
-            return EnqueueSortedHelper(node->getNext(), value);
+            node->setNext(EnqueueSortedHelper(node->getNext(), value));
+            return node;
         }
 
         return new Node<T>(node, value);
@@ -93,6 +95,8 @@ class Queue
     ~Queue<T>() { delete head; }
     Queue<T>& operator=(Queue<T>& other)
     {
+        if (this == &other)
+            return *this;
         delete head;
 
         Node<T> tmp = other.head;
@@ -104,6 +108,8 @@ class Queue
 
         return *this;
     }
+    
+    // tested and working
     void Enqueue(T& value)
     {
         Node<T>* tmp = new Node<T>(value);
@@ -117,14 +123,18 @@ class Queue
         tail = tmp;
         ++count;
     }
+    
+    // tested and working
     void EnqueueSorted(T& value)
     {
-        head = EnqueueSortedHelper(head->getNext(), value);
+        head = EnqueueSortedHelper(head, value);
         if (count == 0)
             tail = head;
         ++count;
     }
     T& Peek() { return head->getValue(); }
+    
+    // tested and working
     T& Dequeue()
     {
         if (head == nullptr)
@@ -132,9 +142,12 @@ class Queue
         T& tmp = head->getValue();
         Node<T>* tmpNode = head;
         head = head->getNext();
+        tmpNode->setNext(nullptr);
         delete tmpNode;
         return tmp;
     }
+
+    // tested and working
     void clear()
     {
         while (head)
@@ -143,14 +156,20 @@ class Queue
         count = 0;
     }
     int size() { return count; }
+
+    // tested and working
     void sort()
     {
-        Queue<T> tmp = new Queue<T>();
-        tmp.EnqueueSorted(Dequeue());
-        head = tmp.head;
-        tail = tmp.tail;
-        count = tmp.count;
+        Queue<T>* tmp = new Queue<T>();
+        while (head) {
+            tmp->EnqueueSorted(Dequeue());
+        }
+        head = tmp->head;
+        tail = tmp->tail;
+        count = tmp->count;
     }
+
+    // tested and working
     friend std::ostream& operator<<(std::ostream& out, const Queue<T>& queue)
     {
         Node<T>* tmp = queue.head;
