@@ -79,12 +79,6 @@ Virus::operator*()
 }
 
 int
-Virus::operator[](int n) const
-{
-    return getNum(n);
-}
-
-int
 Virus::getNum(int n) const
 {
     if (n < 0 || n > size) {
@@ -113,7 +107,7 @@ operator<<(std::ostream& out, const Virus& virus)
     for (int i = 0; i < virus.size; i++) {
         out << virus.genome[i] << " ";
     }
-    
+
     return out;
 }
 
