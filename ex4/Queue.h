@@ -21,15 +21,18 @@ class Node
     Node<T>()
       : next(nullptr)
       , value(0)
-    {}
+    {
+    }
     Node<T>(T& value)
       : next(nullptr)
       , value(value)
-    {}
+    {
+    }
     Node<T>(Node* other, T& value)
       : next(other)
       , value(value)
-    {}
+    {
+    }
     ~Node<T>()
     {
         if (next != nullptr)
@@ -55,12 +58,25 @@ class Queue
     Node<T>* tail;
     int size;
 
+    Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
+    {
+        if (node == nullptr) {
+            return nullptr;
+        }
+        if (node->getValue() < value) {
+            return EnqueueSortedHelper(node->getNext(), value);
+        }
+
+        return new Node<T>(node, value);
+    }
+
   public:
     Queue<T>()
       : head(nullptr)
       , tail(nullptr)
       , size(0)
-    {}
+    {
+    }
     Queue<T>(Queue<T>& other)
       : head(other.head)
       , tail(other.tail)
@@ -79,10 +95,10 @@ class Queue
     {
         delete head;
 
-        Node<T>tmp = other.head;
-        while(tmp) {
+        Node<T> tmp = other.head;
+        while (tmp) {
             Enqueue(tmp.getValue());
-            
+
             tmp = tmp.getNext();
         }
 
@@ -90,16 +106,26 @@ class Queue
     }
     void Enqueue(T& value)
     {
-        tail->setNext(new Node<T>(value));
+        Node<T>* tmp = new Node<T>(value);
+        // if head is null then tail is null
+        // since list is empty
+        if (head != nullptr) {
+            tail->setNext(tmp);
+        } else {
+            head = tmp;
+        }
+        tail = tmp;
     }
     void EnqueueSorted(T& value)
     {
-        /// TODO: finish this
+        head = EnqueueSortedHelper(head->getNext(), value);
     }
     T& Peek() { return head->getValue(); }
     T& Dequeue()
     {
-        int tmp = head->getValue();
+        if (head == nullptr)
+            throw new std::exception();
+        T& tmp = head->getValue();
         head = head->getNext();
         return tmp;
     }
