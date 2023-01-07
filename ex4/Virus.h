@@ -26,6 +26,7 @@ class Virus
     std::string getName() const;
     int getNum(int n) const;
     void setVariant(int variant);
+    int getSize() const { return size; }
 
     void operator*();
 
