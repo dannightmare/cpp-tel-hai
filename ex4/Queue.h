@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include <exception>
+#include <iostream>
 template<class T>
 void
 swap(T* a, T* b)
@@ -56,7 +56,7 @@ class Queue
 {
     Node<T>* head;
     Node<T>* tail;
-    int size;
+    int count = 0;
 
     Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
     {
@@ -74,16 +74,16 @@ class Queue
     Queue<T>()
       : head(nullptr)
       , tail(nullptr)
-      , size(0)
+      , count(0)
     {
     }
     Queue<T>(Queue<T>& other)
       : head(other.head)
       , tail(other.tail)
-      , size(other.size)
+      , count(other.count)
     {
         T tmp;
-        int otherlen = other.size();
+        int otherlen = other.count();
         for (int i = 0; i < otherlen; i++) {
             tmp = other.Dequeue();
             Enqueue(tmp);
@@ -115,10 +115,14 @@ class Queue
             head = tmp;
         }
         tail = tmp;
+        ++count;
     }
     void EnqueueSorted(T& value)
     {
         head = EnqueueSortedHelper(head->getNext(), value);
+        if (count == 0)
+            tail = head;
+        ++count;
     }
     T& Peek() { return head->getValue(); }
     T& Dequeue()
@@ -126,8 +130,36 @@ class Queue
         if (head == nullptr)
             throw new std::exception();
         T& tmp = head->getValue();
+        Node<T>* tmpNode = head;
         head = head->getNext();
+        delete tmpNode;
         return tmp;
+    }
+    void clear()
+    {
+        while (head)
+            Dequeue();
+        tail = nullptr;
+        count = 0;
+    }
+    int size() { return count; }
+    void sort()
+    {
+        Queue<T> tmp = new Queue<T>();
+        tmp.EnqueueSorted(Dequeue());
+        head = tmp.head;
+        tail = tmp.tail;
+        count = tmp.count;
+    }
+    friend std::ostream& operator<<(std::ostream& out, const Queue<T>& queue)
+    {
+        Node<T>* tmp = queue.head;
+        while (tmp) {
+            out << tmp->getValue() << std::endl;
+            tmp = tmp->getNext();
+        }
+
+        return out;
     }
 };
 
