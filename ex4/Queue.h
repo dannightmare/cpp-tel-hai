@@ -30,6 +30,11 @@ class Node
       : next(other)
       , value(value)
     {}
+    ~Node<T>()
+    {
+        if (next != nullptr)
+            delete next;
+    }
 
     // getters/setters
     void setNext(Node* node) { next = node; }
@@ -46,72 +51,57 @@ class Node
 template<class T>
 class Queue
 {
-    T* array;
+    Node<T>* head;
+    Node<T>* tail;
     int size;
 
-    int head;
-    int tail;
-
   public:
-    Queue<T>(int size)
-      : size(size)
-    {
-        array = new T[size];
-    }
+    Queue<T>()
+      : head(nullptr)
+      , tail(nullptr)
+      , size(0)
+    {}
     Queue<T>(Queue<T>& other)
       : head(other.head)
       , tail(other.tail)
       , size(other.size)
     {
-        array = new T[size];
-        for (int i = head; i != tail; i = (i + 1) % size) {
-            array[i] = other.array[i];
+        T tmp;
+        int otherlen = other.size();
+        for (int i = 0; i < otherlen; i++) {
+            tmp = other.Dequeue();
+            Enqueue(tmp);
+            other.Enqueue(tmp);
         }
     }
-    ~Queue<T>() { delete[] array; }
+    ~Queue<T>() { delete head; }
     Queue<T>& operator=(Queue<T>& other)
     {
-        delete[] array;
+        delete head;
 
-        head = other.head;
-        tail = other.tail;
-        size = other.size;
-
-        array = new T[size];
-        for (int i = head; i != tail; i = (i + 1) % size) {
-            array[i] = other.array[i];
+        Node<T>tmp = other.head;
+        while(tmp) {
+            Enqueue(tmp.getValue());
+            
+            tmp = tmp.getNext();
         }
 
         return *this;
     }
     void Enqueue(T& value)
     {
-        tail = (tail + 1) % size;
-        if (tail == head)
-            throw std::exception();
-        *array[tail] = value;
+        tail->setNext(new Node<T>(value));
     }
     void EnqueueSorted(T& value)
     {
-        int i = 0;
-        for (int i = head; i != tail; i = (i + 1) % size) {
-            if (value < array[i]) {
-                break;
-                ;
-            }
-        }
-        tail = (tail + 1) % size;
-        T tmp = value;
-        for (int j = i; j != tail; j = (j + 1) % size) {
-            swap(tmp, array[j]);
-        }
+        /// TODO: finish this
     }
-    T& Peek() { return array[head]; }
+    T& Peek() { return head->getValue(); }
     T& Dequeue()
     {
-        int tmp = head;
-        head = (head + 1) % size;
-        return array[tmp];
+        int tmp = head->getValue();
+        head = head->getNext();
+        return tmp;
     }
 };
 
