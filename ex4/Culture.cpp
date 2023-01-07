@@ -6,9 +6,9 @@ Culture::Culture(const std::string* names,
                  int viruslength,
                  Virus* target,
                  int mutations)
-  : virusesamount(virusesamount)
-  , viruslength(viruslength)
+  : viruslength(viruslength)
   , target(new Virus(*target))
+  , virusesamount(virusesamount)
   , mutations(mutations)
 {
     variants = new int[viruslength];
@@ -111,7 +111,7 @@ Culture::variant(Virus& virus)
 #ifdef DEBUG_VARIANT
     std::cout << "debug: Culture::variant(): variant=" << variant << std::endl;
 #endif // DEBUG_VARIANT
-    
+
     // create a new virus with the new variant
 
     Virus* virus_ret = new Virus(virus);

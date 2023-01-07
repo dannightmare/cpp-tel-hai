@@ -1,3 +1,4 @@
+#include "Queue.h"
 #include "Virus.h"
 #include <iostream>
 
@@ -6,10 +7,10 @@
 
 class Culture
 {
+    int viruslength;
     Virus* target;             // single virus object
     Virus** viruses = nullptr; // matrix of viruses
     int virusesamount;
-    int viruslength;
     int mutations;
     std::string* names; // array
     int* variants;      // array
