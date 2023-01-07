@@ -56,7 +56,7 @@ class Queue
 {
     Node<T>* head;
     Node<T>* tail;
-    int count = 0;
+    int size = 0;
 
     // tested and working
     Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
@@ -76,16 +76,16 @@ class Queue
     Queue<T>()
       : head(nullptr)
       , tail(nullptr)
-      , count(0)
+      , size(0)
     {
     }
     Queue<T>(Queue<T>& other)
       : head(other.head)
       , tail(other.tail)
-      , count(other.count)
+      , size(other.size)
     {
         T tmp;
-        int otherlen = other.count();
+        int otherlen = other.size();
         for (int i = 0; i < otherlen; i++) {
             tmp = other.Dequeue();
             Enqueue(tmp);
@@ -121,16 +121,16 @@ class Queue
             head = tmp;
         }
         tail = tmp;
-        ++count;
+        ++size;
     }
     
     // tested and working
     void EnqueueSorted(T& value)
     {
         head = EnqueueSortedHelper(head, value);
-        if (count == 0)
+        if (size == 0)
             tail = head;
-        ++count;
+        ++size;
     }
     T& Peek() { return head->getValue(); }
     
@@ -153,9 +153,9 @@ class Queue
         while (head)
             Dequeue();
         tail = nullptr;
-        count = 0;
+        size = 0;
     }
-    int size() { return count; }
+    int getSize() { return size; }
 
     // tested and working
     void sort()
@@ -166,7 +166,7 @@ class Queue
         }
         head = tmp->head;
         tail = tmp->tail;
-        count = tmp->count;
+        size = tmp->size;
     }
 
     // tested and working
