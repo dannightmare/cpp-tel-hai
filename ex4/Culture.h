@@ -30,7 +30,7 @@ class Culture
     //         int mutations);
     ~Culture();
 
-    void add(Virus* vector);
+    void add(Virus* virus);
 
     static void setTarget(Virus* vector);
 

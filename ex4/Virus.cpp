@@ -89,12 +89,6 @@ Virus::getNum(int n) const
     return genome[n];
 }
 
-std::string
-Virus::getName() const
-{
-    return name;
-}
-
 std::ostream&
 operator<<(std::ostream& out, const Virus& virus)
 {

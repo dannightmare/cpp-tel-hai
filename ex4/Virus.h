@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
-
 #ifndef VIRUS_H
 #define VIRUS_H
+
+#include <iostream>
+#include <string>
 
 class Virus
 {
@@ -10,7 +10,6 @@ class Virus
     int* genome;
     std::string name;
     int variant = 0;
-    int mutations;
 
   public:
     Virus() = delete;
@@ -20,20 +19,22 @@ class Virus
           int size,
           int variant,
           int mutations);
-    ~Virus();
+    virtual ~Virus();
     Virus(Virus& other);
     Virus& operator=(Virus& other);
     Virus(Virus&& other);
     Virus& operator=(Virus&& other);
 
-    std::string getName() const;
+    std::string getName() const { return name; }
     int getNum(int n) const;
     int getSize() const { return size; }
-    
+    int getVariant() const { return variant; }
+
     void setVariant(int variant);
+    void setName(const std::string& name) { this->name = name; }
 
     int operator[](int n) const { return getNum(n); }
-    void operator*();
+    virtual void operator*();
 
     friend std::ostream& operator<<(std::ostream& out, const Virus& virus);
 };

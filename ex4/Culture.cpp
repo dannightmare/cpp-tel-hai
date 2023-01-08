@@ -1,5 +1,7 @@
 #include "Culture.h"
 
+Virus* Culture::target;
+
 Culture::Culture(int virusesamount, int viruslength)
   : viruslength(viruslength)
   , virusesamount(virusesamount)
@@ -114,4 +116,25 @@ operator<(const Virus& virus1, const Virus& virus2)
 {
     return Culture::calculate_factor(virus1, *Culture::target) <
            Culture::calculate_factor(virus2, *Culture::target);
+}
+
+void
+Culture::setTarget(Virus* target)
+{
+    Culture::target = target;
+}
+
+void
+Culture::add(Virus* virus)
+{
+    names[queue.getSize()] = virus->getName();
+    variants[queue.getSize()] = 0;
+    queue.Enqueue(*virus);
+}
+
+std::ostream&
+operator<<(std::ostream& out, const Culture& culture)
+{
+    out << culture.queue;
+    return out;
 }
