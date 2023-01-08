@@ -8,6 +8,7 @@ class Papilloma : public Virus
 
   public:
     Papilloma() = delete;
+    Papilloma(std::string name, int* genome, int viruslength);
 };
 
 #endif // PAPILLOMA_H

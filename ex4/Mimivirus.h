@@ -7,6 +7,7 @@ class Mimivirus : public Virus
 {
   public:
     Mimivirus() = delete;
+    Mimivirus(std::string name, int* genome, int viruslength);
 };
 
 #endif // MIMIVIRUS_H
