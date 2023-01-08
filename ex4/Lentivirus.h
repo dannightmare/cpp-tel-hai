@@ -9,6 +9,8 @@ class Lentivirus : public Virus
     Lentivirus() = delete;
     Lentivirus(std::string name, int* genome, int viruslength);
 
+    virtual void print(std::ostream& out) const override;
+
     virtual void operator*() override
     {
         for (int i = 0; i < 2; ++i)

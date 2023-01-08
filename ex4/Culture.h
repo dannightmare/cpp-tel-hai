@@ -17,10 +17,10 @@ class Culture
     // int mutations;
     std::string* names; // array
     int* variants;      // array
-
+ public:
     void sort();
 
-  public:
+ 
     Culture(int virusesamount, int viruslength);
     // Culture(const std::string* names,
     //         int** matrix,

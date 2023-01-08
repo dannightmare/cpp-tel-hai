@@ -89,18 +89,24 @@ Virus::getNum(int n) const
     return genome[n];
 }
 
-std::ostream&
-operator<<(std::ostream& out, const Virus& virus)
+void
+Virus::print(std::ostream& out) const
 {
-    out << virus.getName();
-    if (virus.variant != 0) {
-        out << "_" << virus.variant;
+    out << getName();
+    if (variant != 0) {
+        out << "_" << variant;
     }
     out << "\t";
 
-    for (int i = 0; i < virus.size; i++) {
-        out << virus.genome[i] << " ";
+    for (int i = 0; i < size; i++) {
+        out << genome[i] << " ";
     }
+}
+
+std::ostream&
+operator<<(std::ostream& out, const Virus& virus)
+{
+    virus.print(out);
 
     return out;
 }
@@ -109,7 +115,8 @@ void
 Virus::setVariant(int variant)
 {
     if (variant <= 0) {
-        std::cerr << "Virus::setVariant: variant invalid" << std::endl;
+        std::cerr << "Virus::setVariant: variant invalid " << variant
+                  << std::endl;
         exit(25);
     }
     this->variant = variant;

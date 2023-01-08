@@ -9,6 +9,8 @@ class Mimivirus : public Virus
     Mimivirus() = delete;
     Mimivirus(std::string name, int* genome, int viruslength);
 
+    virtual void print(std::ostream& out) const override;
+
     virtual void operator*() override
     {
         for (int i = 0; i < 4; ++i)

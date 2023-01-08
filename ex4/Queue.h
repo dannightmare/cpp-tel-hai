@@ -108,11 +108,11 @@ class Queue
 
         return *this;
     }
-    
+
     // tested and working
     void Enqueue(T& value)
     {
-        Node<T>* tmp = new Node<T>(value);
+        Node<T>* tmp = new Node<T>(*new T(value));
         // if head is null then tail is null
         // since list is empty
         if (head != nullptr) {
@@ -123,17 +123,20 @@ class Queue
         tail = tmp;
         ++size;
     }
-    
+
     // tested and working
     void EnqueueSorted(T& value)
     {
         head = EnqueueSortedHelper(head, value);
         if (size == 0)
             tail = head;
+        while (tail->getNext() != nullptr) {
+            tail = tail->getNext();
+        }
         ++size;
     }
     T& Peek() { return head->getValue(); }
-    
+
     // tested and working
     T& Dequeue()
     {
@@ -167,6 +170,9 @@ class Queue
         head = tmp->head;
         tail = tmp->tail;
         size = tmp->size;
+        tmp->head = nullptr;
+        tmp->tail = nullptr;
+        delete tmp;
     }
 
     // tested and working

@@ -10,6 +10,8 @@ class Papilloma : public Virus
     Papilloma() = delete;
     Papilloma(std::string name, int* genome, int viruslength);
 
+    virtual void print(std::ostream& out) const override;
+
     virtual void operator*() override { Virus::operator*(); }
 };
 

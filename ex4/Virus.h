@@ -35,6 +35,7 @@ class Virus
 
     int operator[](int n) const { return getNum(n); }
     virtual void operator*();
+    virtual void print(std::ostream& out) const;
 
     friend std::ostream& operator<<(std::ostream& out, const Virus& virus);
 };

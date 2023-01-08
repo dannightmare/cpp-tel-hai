@@ -76,13 +76,13 @@ main(int argc, char** argv)
     ////////////////////////////////////////////////////////////////
     /// read from configuration file
 
-    config >> viruslength >> mutations;
+    config >> viruslength;
     if (viruslength < MINVIRUSLENGTH || viruslength > MAXVIRUSLENGTH) {
         std::cerr << "virus length is inappropriate" << std::endl;
         exit(4);
     }
 
-    std::getline(config, tmp);  // discard end of line
+    std::getline(config, tmp); // discard end of line
     std::getline(config, tmp);
 
     int* v = string_to_vector(tmp);
@@ -111,22 +111,23 @@ main(int argc, char** argv)
         first_generation >> type;
         first_generation >> name;
         std::getline(first_generation, tmp);
-        Virus* v = nullptr;
+        Virus* vir = nullptr;
         switch (type) {
             case 'P':
-                v = new Papilloma(name, string_to_vector(tmp), viruslength);
+                vir = new Papilloma(name, string_to_vector(tmp), viruslength);
                 break;
             case 'M':
-                v = new Mimivirus(name, string_to_vector(tmp), viruslength);
+                vir = new Mimivirus(name, string_to_vector(tmp), viruslength);
                 break;
             case 'L':
-                v = new Lentivirus(name, string_to_vector(tmp), viruslength);
+                vir = new Lentivirus(name, string_to_vector(tmp), viruslength);
                 break;
             default:
                 exit(202);
         }
-        culture->add(v);
+        culture->add(vir);
     }
+    culture->sort();
 
     // std::cout << "input iterations: ";
     std::cin >> totaliterations;
@@ -134,7 +135,7 @@ main(int argc, char** argv)
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
-    Virus bestvirus((*culture)[0]);
+    Virus bestvirus(culture->getBestVirus());
     double bestvirusfactor = culture->calculate_factor(*target, bestvirus);
 
     for (int i = 0; i < totaliterations; i++) {
@@ -153,7 +154,7 @@ main(int argc, char** argv)
     }
 
     std::cout << (*culture) << std::endl;
-    
+
     std::cout << std::endl << bestvirus << std::endl;
 
     ////////////////////////////////////////////////////////////////

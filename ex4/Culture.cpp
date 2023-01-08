@@ -48,9 +48,10 @@ void
 Culture::operator++(int)
 {
     for (int i = 0; i < virusesamount; i++) {
-        Virus v = queue.Dequeue();
-        *v;
-        queue.Enqueue(v);
+        Virus *v = &queue.Dequeue();
+        **v;
+        queue.Enqueue(*v);
+        delete v;
     }
 
     sort();
@@ -89,7 +90,8 @@ Culture::variant(Virus& virus)
     // find which variant is next
     std::string name = virus.getName();
     int variant = 0;
-    for (int i = 0; i < viruslength; i++) {
+    for (int i = 0; i < virusesamount; i++) {
+        // std::cout << name << " | " << names[i] << " | " << virus << std::endl;
         if (name.compare(names[i]) == 0) {
             variant = ++(variants[i]);
         }
