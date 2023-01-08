@@ -1,4 +1,7 @@
 #include "Culture.h"
+#include "Lentivirus.h"
+#include "Mimivirus.h"
+#include "Papilloma.h"
 #include "Virus.h"
 #include <fstream>
 #include <iostream>
@@ -47,7 +50,7 @@ main(int argc, char** argv)
     // queue->clear();
     // std::cout << *queue << std::endl;
     // return 0;
-    
+
     if (argc != 3) {
         std::cerr
           << "Usage: run the program with <init file name> <location file name>"
@@ -79,11 +82,12 @@ main(int argc, char** argv)
         exit(4);
     }
 
-    std::getline(config, tmp);
+    std::getline(config, tmp);  // discard end of line
     std::getline(config, tmp);
 
     int* v = string_to_vector(tmp);
     target = new Virus("target", v, viruslength);
+    Culture::setTarget(target);
 
     delete v;
 
@@ -97,20 +101,32 @@ main(int argc, char** argv)
         exit(7);
     }
 
-    int* matrix[virusesamount];
-    std::string names[virusesamount];
+    // Create culture
+
+    culture = new Culture(virusesamount, viruslength);
+
+    std::string name;
+    char type;
     for (int i = 0; i < virusesamount; i++) {
-        first_generation >> names[i];
+        first_generation >> type;
+        first_generation >> name;
         std::getline(first_generation, tmp);
-        matrix[i] = string_to_vector(tmp);
+        Virus* v = nullptr;
+        switch (type) {
+            case 'P':
+                v = new Papilloma(name, string_to_vector(tmp), viruslength);
+                break;
+            case 'M':
+                v = new Mimivirus(name, string_to_vector(tmp), viruslength);
+                break;
+            case 'L':
+                v = new Lentivirus(name, string_to_vector(tmp), viruslength);
+                break;
+            default:
+                exit(202);
+        }
+        culture->add(v);
     }
-// #define DEBUG
-#ifdef DEBUG
-    std::cout << "debug: before creation of culture" << std::endl;
-#endif // DEBUG
-    culture =
-      new Culture(names, matrix, virusesamount, viruslength, target, mutations);
-    // target = nullptr;
 
     // std::cout << "input iterations: ";
     std::cin >> totaliterations;
@@ -136,9 +152,8 @@ main(int argc, char** argv)
         }
     }
 
-    for (int i = 0; i < virusesamount; i++) {
-        std::cout << (*culture)[i] << std::endl;
-    }
+    std::cout << (*culture) << std::endl;
+    
     std::cout << std::endl << bestvirus << std::endl;
 
     ////////////////////////////////////////////////////////////////
@@ -146,10 +161,6 @@ main(int argc, char** argv)
 
     delete target;
     delete culture;
-
-    for (int i = 0; i < virusesamount; i++) {
-        delete matrix[i];
-    }
 
     return 0;
 }
