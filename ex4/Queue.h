@@ -56,7 +56,7 @@ class Queue
 {
     Node<T>* head;
     Node<T>* tail;
-    int size = 0;
+    int size;
 
     // tested and working
     Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
