@@ -1,5 +1,8 @@
 #include "Queue.h"
 #include "Virus.h"
+#include "Papilloma.h"
+#include "Lentivirus.h"
+#include "Mimivirus.h"
 #include <iostream>
 
 #ifndef CULTURE_H

@@ -10,7 +10,6 @@ Culture::Culture(int virusesamount, int viruslength)
 
 Culture::~Culture()
 {
-    delete target;
     delete[] names;
     delete[] variants;
 }
@@ -22,12 +21,12 @@ Culture::getVirus(int i)
         std::cerr << "getVirus index out of bounds " << i << std::endl;
         exit(8);
     }
-    while(i > 0) {
+    while (i > 0) {
         queue.Enqueue(queue.Dequeue());
         i--;
     }
     Virus* v = &queue.Peek();
-    queue.sort();
+    sort();
     return *v;
 }
 
@@ -47,34 +46,26 @@ void
 Culture::operator++(int)
 {
     for (int i = 0; i < virusesamount; i++) {
-        for (int j = 0; j < mutations; j++)
-            *(*viruses[i]);
+        Virus v = queue.Dequeue();
+        *v;
+        queue.Enqueue(v);
     }
 
     sort();
-    *viruses[virusesamount - 1] = variant(*viruses[0]);
+    for (int i = virusesamount - 1; i > 0; i--) {
+        Virus* v = &operator[](i);
+        if (dynamic_cast<Papilloma*>(v)) {
+            continue;
+        }
+        *v = variant(getBestVirus());
+        break;
+    }
 }
 
 void
 Culture::sort()
 {
-    double factor[virusesamount];
-    for (int i = 0; i < virusesamount; i++) {
-        factor[i] = calculate_factor(*target, *viruses[i]);
-    }
-
-    for (int i = 1; i < virusesamount; i++) {
-        double cur = factor[i];
-        Virus curv(*viruses[i]);
-        int j = 0;
-        for (j = i - 1; j >= 0 && cur < factor[j]; j--) {
-            factor[j + 1] = factor[j];
-            *viruses[j + 1] = *viruses[j];
-        }
-        j++;
-        factor[j] = cur;
-        *viruses[j] = curv;
-    }
+    queue.sort();
 }
 
 double
