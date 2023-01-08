@@ -1,36 +1,15 @@
 #include "Culture.h"
 
-Culture::Culture(const std::string* names,
-                 int** matrix,
-                 int virusesamount,
-                 int viruslength,
-                 Virus* target,
-                 int mutations)
+Culture::Culture(int virusesamount, int viruslength)
   : viruslength(viruslength)
   , virusesamount(virusesamount)
-  , mutations(mutations)
 {
-    if (this->target == nullptr) {
-        this->target = new Virus(*target);
-    }
-
     variants = new int[viruslength];
-    this->names = new std::string[viruslength];
-    viruses = new Virus*[virusesamount];
-    for (int i = 0; i < virusesamount; i++) {
-        variants[i] = 0;
-        this->names[i] = names[i];
-        viruses[i] = new Virus(names[i], matrix[i], viruslength);
-    }
-    sort();
+    names = new std::string[viruslength];
 }
 
 Culture::~Culture()
 {
-    for (int i = 0; i < virusesamount; i++) {
-        delete viruses[i];
-    }
-    delete[] viruses;
     delete target;
     delete[] names;
     delete[] variants;
@@ -43,13 +22,25 @@ Culture::getVirus(int i)
         std::cerr << "getVirus index out of bounds " << i << std::endl;
         exit(8);
     }
-    return *viruses[i];
+    while(i > 0) {
+        queue.Enqueue(queue.Dequeue());
+        i--;
+    }
+    Virus* v = &queue.Peek();
+    queue.sort();
+    return *v;
 }
 
 Virus&
 Culture::operator[](int i)
 {
     return getVirus(i);
+}
+
+Virus&
+Culture::getBestVirus()
+{
+    return queue.Peek();
 }
 
 void
