@@ -135,27 +135,41 @@ main(int argc, char** argv)
     ////////////////////////////////////////////////////////////////
     /// FINISHED SETUP
 
-    Virus bestvirus(culture->getBestVirus());
-    double bestvirusfactor = culture->calculate_factor(*target, bestvirus);
+    Virus* bestvirus = &culture->getBestVirus();
+    double bestvirusfactor =
+      culture->calculate_factor(*target, culture->getBestVirus());
 
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
 
-        double newfactor = culture->calculate_factor(*target, culture->getBestVirus());
-        if (newfactor == 0) {
+        double newfactor =
+          culture->calculate_factor(*target, culture->getBestVirus());
 
-            bestvirus = culture->getBestVirus();
-            break;
-        }
         if (newfactor < bestvirusfactor) {
             bestvirusfactor = newfactor;
-            bestvirus = culture->getBestVirus();
+            bestvirus = &culture->getBestVirus();
+            // delete bestvirus;
+            // std::cout << "debug: [" << std::endl
+            //           << typeid(culture->getBestVirus()).name() << std::endl
+            //           << typeid(Papilloma).name() << std::endl
+            //           << typeid(Mimivirus).name() << std::endl
+            //           << typeid(Lentivirus).name() << std::endl
+            //           << "]" << std::endl;
+            // if (typeid(culture->getBestVirus()) == typeid(Papilloma&)) {
+            //     bestvirus = new Papilloma(culture->getBestVirus());
+            // } else if (typeid(culture->getBestVirus()) == typeid(Mimivirus&)) {
+            //     bestvirus = new Mimivirus(culture->getBestVirus());
+            // } else if (typeid(culture->getBestVirus()) == typeid(Lentivirus&)) {
+            //     bestvirus = new Lentivirus(culture->getBestVirus());
+            // }
         }
+        if (newfactor == 0)
+            break;
     }
 
     std::cout << (*culture) << std::endl;
 
-    std::cout << std::endl << bestvirus << std::endl;
+    std::cout << *bestvirus << std::endl;
 
     ////////////////////////////////////////////////////////////////
     /// DELETE EVERYTHING
