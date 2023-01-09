@@ -73,7 +73,7 @@ Culture::operator++(int)
         if (dynamic_cast<Papilloma*>(v)) {
             continue;
         }
-        remove(v);
+        // remove(v);
         queue.Enqueue(bestVirusVariant);
         break;
     }
