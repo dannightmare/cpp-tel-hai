@@ -9,6 +9,8 @@ class Papilloma : public Virus
   public:
     Papilloma() = delete;
     Papilloma(std::string name, int* genome, int viruslength);
+    Papilloma(Virus& other);
+    ~Papilloma() override;
 
     virtual void print(std::ostream& out) const override;
 

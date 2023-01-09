@@ -8,6 +8,8 @@ class Mimivirus : public Virus
   public:
     Mimivirus() = delete;
     Mimivirus(std::string name, int* genome, int viruslength);
+    Mimivirus(Virus& other);
+    ~Mimivirus() override {}
 
     virtual void print(std::ostream& out) const override;
 

@@ -16,23 +16,28 @@ Culture::~Culture()
     delete[] variants;
 }
 
-Virus&
+Virus*
 Culture::getVirus(int i)
 {
     if (i < 0 || i >= virusesamount) {
         std::cerr << "getVirus index out of bounds " << i << std::endl;
         exit(8);
     }
-    while (i > 0) {
+    int iter = 0;
+    while (iter < i) {
         queue.Enqueue(queue.Dequeue());
-        i--;
+        ++iter;
     }
-    Virus* v = &queue.Peek();
-    sort();
-    return *v;
+    Virus* v = queue.Peek();
+    while (iter < virusesamount) {
+        queue.Enqueue(queue.Dequeue());
+        ++iter;
+    }
+    // sort();
+    return v;
 }
 
-Virus&
+Virus*
 Culture::operator[](int i)
 {
     return getVirus(i);
@@ -41,28 +46,51 @@ Culture::operator[](int i)
 Virus&
 Culture::getBestVirus()
 {
-    return queue.Peek();
+    return *queue.Peek();
 }
 
 void
 Culture::operator++(int)
 {
     for (int i = 0; i < virusesamount; i++) {
-        Virus *v = &queue.Dequeue();
+        Virus* v = queue.Dequeue();
         **v;
-        queue.Enqueue(*v);
-        delete v;
+        queue.Enqueue(v);
+    }
+    // getBestVirus(); but also create a new virus by type
+    Virus* bestVirusVariant = &getBestVirus();
+    if (typeid(*bestVirusVariant) == typeid(Papilloma)) {
+        std::cout << "papilloma" << std::endl;
+        bestVirusVariant = new Papilloma(variant(*bestVirusVariant));
+    } else if (typeid(*bestVirusVariant) == typeid(Mimivirus)) {
+        std::cout << "mimivirus" << std::endl;
+        bestVirusVariant = new Mimivirus(variant(*bestVirusVariant));
+    } else if (typeid(*bestVirusVariant) == typeid(Lentivirus)) {
+        std::cout << "lentivirus" << std::endl;
+        bestVirusVariant = new Lentivirus(variant(*bestVirusVariant));
     }
 
     sort();
     for (int i = virusesamount - 1; i > 0; i--) {
-        Virus* v = &operator[](i);
+        Virus* v = operator[](i);
         if (dynamic_cast<Papilloma*>(v)) {
             continue;
         }
-        *v = variant(getBestVirus());
+        remove(v);
+        add(bestVirusVariant);
         break;
     }
+    sort();
+}
+
+void
+Culture::remove(Virus* virus)
+{
+    while (virus != queue.Peek()) {
+        queue.Enqueue(queue.Dequeue());
+    }
+    delete queue.Dequeue();
+    sort();
 }
 
 void
@@ -91,9 +119,10 @@ Culture::variant(Virus& virus)
     std::string name = virus.getName();
     int variant = 0;
     for (int i = 0; i < virusesamount; i++) {
-        // std::cout << name << " | " << names[i] << " | " << virus << std::endl;
         if (name.compare(names[i]) == 0) {
             variant = ++(variants[i]);
+            /// if i disable break, will it wort? TODO:
+            break;
         }
     }
 
@@ -131,7 +160,7 @@ Culture::add(Virus* virus)
 {
     names[queue.getSize()] = virus->getName();
     variants[queue.getSize()] = 0;
-    queue.Enqueue(*virus);
+    queue.Enqueue(virus);
 }
 
 std::ostream&

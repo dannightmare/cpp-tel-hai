@@ -8,6 +8,8 @@ class Lentivirus : public Virus
   public:
     Lentivirus() = delete;
     Lentivirus(std::string name, int* genome, int viruslength);
+    Lentivirus(Virus& other);
+    ~Lentivirus() override {}
 
     virtual void print(std::ostream& out) const override;
 

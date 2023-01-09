@@ -13,7 +13,7 @@ class Culture
     int viruslength;
     int virusesamount;
     static Virus* target; // single virus object
-    Queue<Virus> queue;   // queue
+    Queue<Virus*> queue;   // queue
     // int mutations;
     std::string* names; // array
     int* variants;      // array
@@ -31,12 +31,13 @@ class Culture
     ~Culture();
 
     void add(Virus* virus);
+    void remove(Virus* virus);
 
     static void setTarget(Virus* vector);
 
-    Virus& getVirus(int i);
+    Virus* getVirus(int i);
     Virus& getBestVirus();
-    Virus& operator[](int i);
+    Virus* operator[](int i);
 
     void operator++(int);
 
