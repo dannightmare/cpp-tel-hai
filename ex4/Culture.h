@@ -13,7 +13,7 @@ class Culture
     int viruslength;
     int virusesamount;
     static Virus* target; // single virus object
-    Queue<Virus*> queue;   // queue
+    Queue<Virus> queue;   // queue
     // int mutations;
     std::string* names; // array
     int* variants;      // array
