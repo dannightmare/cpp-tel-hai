@@ -60,13 +60,10 @@ Culture::operator++(int)
     // getBestVirus(); but also create a new virus by type
     Virus* bestVirusVariant = &getBestVirus();
     if (typeid(*bestVirusVariant) == typeid(Papilloma)) {
-        std::cout << "papilloma" << std::endl;
         bestVirusVariant = new Papilloma(variant(*bestVirusVariant));
     } else if (typeid(*bestVirusVariant) == typeid(Mimivirus)) {
-        std::cout << "mimivirus" << std::endl;
         bestVirusVariant = new Mimivirus(variant(*bestVirusVariant));
     } else if (typeid(*bestVirusVariant) == typeid(Lentivirus)) {
-        std::cout << "lentivirus" << std::endl;
         bestVirusVariant = new Lentivirus(variant(*bestVirusVariant));
     }
 
@@ -77,7 +74,7 @@ Culture::operator++(int)
             continue;
         }
         remove(v);
-        add(bestVirusVariant);
+        queue.Enqueue(bestVirusVariant);
         break;
     }
     sort();
@@ -102,14 +99,14 @@ Culture::sort()
 double
 Culture::calculate_factor(const Virus& virus1, const Virus& virus2)
 {
-    double countmisfits = 0;
+    double countfit = 0;
     int viruslength = virus1.getSize();
     for (int i = 0; i < viruslength; i++) {
         if (virus1[i] == virus2[i])
-            countmisfits++;
+            countfit++;
     }
 
-    return 1 - (countmisfits / viruslength);
+    return 1 - (countfit / viruslength);
 }
 
 Virus&
@@ -121,7 +118,6 @@ Culture::variant(Virus& virus)
     for (int i = 0; i < virusesamount; i++) {
         if (name.compare(names[i]) == 0) {
             variant = ++(variants[i]);
-            /// if i disable break, will it wort? TODO:
             break;
         }
     }
@@ -155,6 +151,8 @@ Culture::setTarget(Virus* target)
     Culture::target = target;
 }
 
+
+// should only be called on setup
 void
 Culture::add(Virus* virus)
 {
