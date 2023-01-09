@@ -110,7 +110,7 @@ class Queue
     // tested and working
     void Enqueue(T* value)
     {
-        Node<T>* tmp = new Node<T>(new T(*value));
+        Node<T>* tmp = new Node<T>(value);
         // if head is null then tail is null
         // since list is empty
         if (head != nullptr) {
