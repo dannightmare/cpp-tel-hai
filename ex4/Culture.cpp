@@ -1,4 +1,5 @@
 #include "Culture.h"
+#include <exception>
 
 Virus* Culture::target;
 
@@ -67,24 +68,34 @@ Culture::operator++(int)
         bestVirusVariant = new Lentivirus(variant(*bestVirusVariant));
     }
 
-    sort();
+    // std::cout << queue << std::endl;
     for (int i = virusesamount - 1; i > 0; i--) {
         Virus* v = operator[](i);
         if (dynamic_cast<Papilloma*>(v)) {
             continue;
         }
-        // remove(v);
+        // std::cout << queue << std::endl;
+        remove(v);
         queue.Enqueue(bestVirusVariant);
         break;
     }
+    // std::cout << queue << std::endl;
+
     sort();
 }
 
 void
 Culture::remove(Virus* virus)
 {
-    while (virus != queue.Peek()) {
+    int iter = virusesamount;
+    while (virus->getVariant() != queue.Peek()->getVariant() ||
+           virus->getName() != queue.Peek()->getName()) {
         queue.Enqueue(queue.Dequeue());
+        if (iter-- < 0) {
+            std::cerr << "ERROR: couldn't find the appropriate virus to remove"
+                      << *virus << std::endl;
+            exit(404);
+        }
     }
     delete queue.Dequeue();
     sort();
@@ -150,7 +161,6 @@ Culture::setTarget(Virus* target)
 {
     Culture::target = target;
 }
-
 
 // should only be called on setup
 void
