@@ -147,6 +147,7 @@ class Queue
         head = head->getNext();
         tmpNode->setNext(nullptr);
         delete tmpNode;
+        --size;
         return tmp;
     }
 
@@ -180,7 +181,7 @@ class Queue
     {
         Node<T>* tmp = queue.head;
         while (tmp) {
-            out << tmp->getValue() << std::endl;
+            out << *(tmp->getValue()) << std::endl;
             tmp = tmp->getNext();
         }
 
