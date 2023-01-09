@@ -167,8 +167,8 @@ class Queue
             tmp->EnqueueSorted(Dequeue());
         }
         *this = *tmp;
-        tmp->head = nullptr;
-        tmp->tail = nullptr;
+        // tmp->head = nullptr;
+        // tmp->tail = nullptr;
         delete tmp;
     }
 
