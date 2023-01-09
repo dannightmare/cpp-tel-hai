@@ -9,7 +9,7 @@ class Mimivirus : public Virus
     Mimivirus() = delete;
     Mimivirus(std::string name, int* genome, int viruslength);
     Mimivirus(Virus& other);
-    ~Mimivirus() override {}
+    ~Mimivirus() override;
 
     virtual void print(std::ostream& out) const override;
 
