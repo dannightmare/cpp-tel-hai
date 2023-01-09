@@ -141,15 +141,15 @@ main(int argc, char** argv)
     for (int i = 0; i < totaliterations; i++) {
         (*culture)++;
 
-        double newfactor = culture->calculate_factor(*target, (*culture)[0]);
+        double newfactor = culture->calculate_factor(*target, culture->getBestVirus());
         if (newfactor == 0) {
 
-            bestvirus = (*culture)[0];
+            bestvirus = culture->getBestVirus();
             break;
         }
         if (newfactor < bestvirusfactor) {
             bestvirusfactor = newfactor;
-            bestvirus = (*culture)[0];
+            bestvirus = culture->getBestVirus();
         }
     }
 
