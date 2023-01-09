@@ -15,7 +15,7 @@ template<class T>
 class Node
 {
     Node<T>* next;
-    T& value;
+    T* value;
 
   public:
     Node<T>()
@@ -23,12 +23,12 @@ class Node
       , value(0)
     {
     }
-    Node<T>(T& value)
+    Node<T>(T* value)
       : next(nullptr)
       , value(value)
     {
     }
-    Node<T>(Node* other, T& value)
+    Node<T>(Node* other, T* value)
       : next(other)
       , value(value)
     {
@@ -41,9 +41,9 @@ class Node
 
     // getters/setters
     void setNext(Node* node) { next = node; }
-    void setValue(T& value) { this->value = value; }
+    void setValue(T* value) { this->value = value; }
     Node* getNext() { return next; }
-    T& getValue() { return value; }
+    T* getValue() { return value; }
 };
 /**
  * this class requires that the T class has the following:
@@ -59,12 +59,12 @@ class Queue
     int size;
 
     // tested and working
-    Node<T>* EnqueueSortedHelper(Node<T>* node, T& value)
+    Node<T>* EnqueueSortedHelper(Node<T>* node, T* value)
     {
         if (node == nullptr) {
             return new Node<T>(value);
         }
-        if (node->getValue() < value) {
+        if (*node->getValue() < *value) {
             node->setNext(EnqueueSortedHelper(node->getNext(), value));
             return node;
         }
@@ -80,16 +80,12 @@ class Queue
     {
     }
     Queue<T>(Queue<T>& other)
-      : head(other.head)
-      , tail(other.tail)
-      , size(other.size)
     {
-        T tmp;
-        int otherlen = other.size();
-        for (int i = 0; i < otherlen; i++) {
-            tmp = other.Dequeue();
-            Enqueue(tmp);
-            other.Enqueue(tmp);
+        Node<T> tmp = other.head;
+        size = other.size;
+        while (tmp) {
+            Enqueue(new T(tmp.getValue()));
+            tmp = tmp.getNext();
         }
     }
     ~Queue<T>() { delete head; }
@@ -98,21 +94,23 @@ class Queue
         if (this == &other)
             return *this;
         delete head;
-
-        Node<T> tmp = other.head;
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
+        Node<T>* tmp = other.head;
         while (tmp) {
-            Enqueue(tmp.getValue());
+            Enqueue(tmp->getValue());
 
-            tmp = tmp.getNext();
+            tmp = tmp->getNext();
         }
 
         return *this;
     }
 
     // tested and working
-    void Enqueue(T& value)
+    void Enqueue(T* value)
     {
-        Node<T>* tmp = new Node<T>(*new T(value));
+        Node<T>* tmp = new Node<T>(new T(*value));
         // if head is null then tail is null
         // since list is empty
         if (head != nullptr) {
@@ -125,7 +123,7 @@ class Queue
     }
 
     // tested and working
-    void EnqueueSorted(T& value)
+    void EnqueueSorted(T* value)
     {
         head = EnqueueSortedHelper(head, value);
         if (size == 0)
@@ -135,14 +133,14 @@ class Queue
         }
         ++size;
     }
-    T& Peek() { return head->getValue(); }
+    T* Peek() { return head->getValue(); }
 
     // tested and working
-    T& Dequeue()
+    T* Dequeue()
     {
         if (head == nullptr)
             throw new std::exception();
-        T& tmp = head->getValue();
+        T* tmp = head->getValue();
         Node<T>* tmpNode = head;
         head = head->getNext();
         tmpNode->setNext(nullptr);
@@ -154,8 +152,8 @@ class Queue
     // tested and working
     void clear()
     {
-        while (head)
-            Dequeue();
+        delete head;
+        head = nullptr;
         tail = nullptr;
         size = 0;
     }
@@ -168,9 +166,7 @@ class Queue
         while (head) {
             tmp->EnqueueSorted(Dequeue());
         }
-        head = tmp->head;
-        tail = tmp->tail;
-        size = tmp->size;
+        *this = *tmp;
         tmp->head = nullptr;
         tmp->tail = nullptr;
         delete tmp;
@@ -181,7 +177,7 @@ class Queue
     {
         Node<T>* tmp = queue.head;
         while (tmp) {
-            out << *(tmp->getValue()) << std::endl;
+            out << *tmp->getValue() << std::endl;
             tmp = tmp->getNext();
         }
 
