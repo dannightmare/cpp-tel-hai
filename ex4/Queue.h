@@ -147,7 +147,8 @@ class Queue
     // tested and working
     void clear()
     {
-        delete head;
+        while (head)
+            Dequeue();
         head = nullptr;
         tail = nullptr;
         size = 0;
