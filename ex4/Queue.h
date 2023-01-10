@@ -33,11 +33,6 @@ class Node
       , value(value)
     {
     }
-    ~Node<T>()
-    {
-        if (next != nullptr)
-            delete next;
-    }
 
     // getters/setters
     void setNext(Node* node) { next = node; }
