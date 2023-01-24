@@ -13,7 +13,7 @@ Mimivirus::Mimivirus(Virus& other)
 void
 Mimivirus::print(std::ostream& out) const
 {
-    out << 'M' << '\t';
+    out << 'M' << ' ';  // was \t
     Virus::print(out);
 }
 

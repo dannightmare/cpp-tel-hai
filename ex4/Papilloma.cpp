@@ -13,7 +13,7 @@ Papilloma::Papilloma(Virus& other)
 void
 Papilloma::print(std::ostream& out) const
 {
-    out << 'P' << '\t';
+    out << 'P' << ' '; // was \t
     Virus::print(out);
 }
 

@@ -96,7 +96,7 @@ Virus::print(std::ostream& out) const
     if (variant != 0) {
         out << "_" << variant;
     }
-    out << "\t";
+    out << " "; // was \t
 
     for (int i = 0; i < size; i++) {
         out << genome[i] << " ";
