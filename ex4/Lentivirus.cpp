@@ -14,6 +14,6 @@ Lentivirus::Lentivirus(Virus& other)
 void
 Lentivirus::print(std::ostream& out) const
 {
-    out << 'L' << '\t';
+    out << 'L' << ' '; // was \t
     Virus::print(out);
 }
