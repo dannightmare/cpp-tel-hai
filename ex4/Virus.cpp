@@ -1,30 +1,30 @@
 #include "Virus.h"
 #include <string>
 
-Virus::Virus(const std::string& name, int* genome, int size)
-  : size(size)
-  , name(name)
+Virus::Virus(const std::string* name, int* genome, int size)
+  : m_size(size)
+  , m_name(name)
 {
-    this->genome = new int[size];
+    m_genome = new int[size];
     for (int i = 0; i < size; i++) {
-        this->genome[i] = genome[i];
+        m_genome[i] = genome[i];
     }
 }
 
 Virus::~Virus()
 {
-    delete[] genome;
+    delete[] m_genome;
 }
 
 Virus::Virus(Virus& other)
 {
-    size = other.size;
-    genome = new int[size];
-    for (int i = 0; i < size; i++) {
-        genome[i] = other.genome[i];
+    m_size = other.m_size;
+    m_genome = new int[m_size];
+    for (int i = 0; i < m_size; i++) {
+        m_genome[i] = other.m_genome[i];
     }
-    name = other.name;
-    variant = other.variant;
+    m_name = other.m_name;
+    m_variant = other.m_variant;
 }
 
 Virus&
@@ -34,20 +34,20 @@ Virus::operator=(Virus& other)
         return *this;
     }
     // size stays unchanged
-    for (int i = 0; i < size; i++) {
-        genome[i] = other.genome[i];
+    for (int i = 0; i < m_size; i++) {
+        m_genome[i] = other.m_genome[i];
     }
-    name = other.name;
-    variant = other.variant;
+    m_name = other.m_name;
+    m_variant = other.m_variant;
     return *this;
 }
 Virus::Virus(Virus&& other)
 {
-    genome = other.genome;
-    other.genome = nullptr;
-    size = other.size;
-    name = other.name;
-    variant = other.variant;
+    m_genome = other.m_genome;
+    other.m_genome = nullptr;
+    m_size = other.m_size;
+    m_name = other.m_name;
+    m_variant = other.m_variant;
 }
 
 Virus&
@@ -56,50 +56,50 @@ Virus::operator=(Virus&& other)
     if (this == &other) {
         return *this;
     }
-    delete[] genome;
-    genome = other.genome;
-    other.genome = nullptr;
-    name = other.name;
-    variant = other.variant;
+    delete[] m_genome;
+    m_genome = other.m_genome;
+    other.m_genome = nullptr;
+    m_name = other.m_name;
+    m_variant = other.m_variant;
     return *this;
 }
 
 void
 Virus::operator*()
 {
-    int x = rand() % size;
-    int y = rand() % size;
+    int x = rand() % m_size;
+    int y = rand() % m_size;
 
     if (x == y)
         return;
 
-    int tmp = genome[x];
-    genome[x] = genome[y];
-    genome[y] = tmp;
+    int tmp = m_genome[x];
+    m_genome[x] = m_genome[y];
+    m_genome[y] = tmp;
 }
 
 int
 Virus::getNum(int n) const
 {
-    if (n < 0 || n > size) {
+    if (n < 0 || n > m_size) {
         std::cerr << "Virus::getNum(int n): " << n << " out of bounds"
                   << std::endl;
         exit(20);
     }
-    return genome[n];
+    return m_genome[n];
 }
 
 void
 Virus::print(std::ostream& out) const
 {
     out << getName();
-    if (variant != 0) {
-        out << "_" << variant;
+    if (m_variant != 0) {
+        out << "_" << m_variant;
     }
     out << " "; // was \t
 
-    for (int i = 0; i < size; i++) {
-        out << genome[i] << " ";
+    for (int i = 0; i < m_size; i++) {
+        out << m_genome[i] << " ";
     }
 }
 
@@ -119,5 +119,5 @@ Virus::setVariant(int variant)
                   << std::endl;
         exit(25);
     }
-    this->variant = variant;
+    this->m_variant = variant;
 }

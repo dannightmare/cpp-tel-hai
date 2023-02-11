@@ -1,7 +1,6 @@
-#include "Lentivirus.h"
 #include "Virus.h"
 
-Lentivirus::Lentivirus(std::string name, int* genome, int viruslength)
+Lentivirus::Lentivirus(const std::string* name, int* genome, int viruslength)
   : Virus(name, genome, viruslength)
 {
 }

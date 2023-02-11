@@ -1,6 +1,6 @@
-#include "Mimivirus.h"
+#include "Virus.h"
 
-Mimivirus::Mimivirus(std::string name, int* genome, int viruslength)
+Mimivirus::Mimivirus(const std::string* name, int* genome, int viruslength)
   : Virus(name, genome, viruslength)
 {
 }

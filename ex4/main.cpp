@@ -1,17 +1,14 @@
 #include "Culture.h"
-#include "Lentivirus.h"
-#include "Mimivirus.h"
-#include "Papilloma.h"
 #include "Virus.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
-const int MAXITERATIONS = 1000000;
-const int MAXVIRUSES = 10000;
-const int MINVIRUSES = 2;
-const int MAXVIRUSLENGTH = 100;
-const int MINVIRUSLENGTH = 5;
+static const int MAXITERATIONS = 1000000;
+static const int MAXVIRUSES = 10000;
+static const int MINVIRUSES = 2;
+static const int MAXVIRUSLENGTH = 100;
+static const int MINVIRUSLENGTH = 5;
 
 // config file
 int viruslength = 0;
@@ -86,7 +83,8 @@ main(int argc, char** argv)
     std::getline(config, tmp);
 
     int* v = string_to_vector(tmp);
-    target = new Virus("target", v, viruslength);
+    std::string tar_name("target");
+    target = new Virus(&tar_name, v, viruslength);
     Culture::setTarget(target);
 
     delete v;
@@ -105,22 +103,25 @@ main(int argc, char** argv)
 
     culture = new Culture(virusesamount, viruslength);
 
-    std::string name;
+    std::string name[virusesamount];
     char type;
     for (int i = 0; i < virusesamount; i++) {
         first_generation >> type;
-        first_generation >> name;
+        first_generation >> name[i];
         std::getline(first_generation, tmp);
         Virus* vir = nullptr;
         switch (type) {
             case 'P':
-                vir = new Papilloma(name, string_to_vector(tmp), viruslength);
+                vir =
+                  new Papilloma(name + i, string_to_vector(tmp), viruslength);
                 break;
             case 'M':
-                vir = new Mimivirus(name, string_to_vector(tmp), viruslength);
+                vir =
+                  new Mimivirus(name + i, string_to_vector(tmp), viruslength);
                 break;
             case 'L':
-                vir = new Lentivirus(name, string_to_vector(tmp), viruslength);
+                vir =
+                  new Lentivirus(name + i, string_to_vector(tmp), viruslength);
                 break;
             default:
                 exit(202);
@@ -157,9 +158,11 @@ main(int argc, char** argv)
             //           << "]" << std::endl;
             // if (typeid(culture->getBestVirus()) == typeid(Papilloma&)) {
             //     bestvirus = new Papilloma(culture->getBestVirus());
-            // } else if (typeid(culture->getBestVirus()) == typeid(Mimivirus&)) {
+            // } else if (typeid(culture->getBestVirus()) == typeid(Mimivirus&))
+            // {
             //     bestvirus = new Mimivirus(culture->getBestVirus());
-            // } else if (typeid(culture->getBestVirus()) == typeid(Lentivirus&)) {
+            // } else if (typeid(culture->getBestVirus()) ==
+            // typeid(Lentivirus&)) {
             //     bestvirus = new Lentivirus(culture->getBestVirus());
             // }
         }

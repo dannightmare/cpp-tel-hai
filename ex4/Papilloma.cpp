@@ -1,6 +1,6 @@
-#include "Papilloma.h"
+#include "Virus.h"
 
-Papilloma::Papilloma(std::string name, int* genome, int viruslength)
+Papilloma::Papilloma(const std::string* name, int* genome, int viruslength)
   : Virus(name, genome, viruslength)
 {
 }

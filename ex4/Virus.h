@@ -1,19 +1,21 @@
 #pragma once
 
+#define LOG(x) std::cout << x << std::endl
+
 #include <iostream>
 #include <string>
 
 class Virus
 {
-    int size;
-    int* genome;
-    std::string name;
-    int variant = 0;
+    int m_size;
+    int* m_genome;
+    const std::string* m_name;
+    int m_variant = 0;
 
   public:
     Virus() = delete;
-    Virus(const std::string& name, int* genome, int size);
-    Virus(const std::string& name,
+    Virus(const std::string* name, int* genome, int size);
+    Virus(const std::string* name,
           int* genome,
           int size,
           int variant,
@@ -24,13 +26,13 @@ class Virus
     Virus(Virus&& other);
     Virus& operator=(Virus&& other);
 
-    std::string getName() const { return name; }
+    const std::string* getName() const { return m_name; }
     int getNum(int n) const;
-    int getSize() const { return size; }
-    int getVariant() const { return variant; }
+    int getSize() const { return m_size; }
+    int getVariant() const { return m_variant; }
 
     void setVariant(int variant);
-    void setName(const std::string& name) { this->name = name; }
+    void setName(const std::string* name) { this->m_name = name; }
 
     int operator[](int n) const { return getNum(n); }
     virtual void operator*();
@@ -42,7 +44,7 @@ class Lentivirus : public Virus
 {
   public:
     Lentivirus() = delete;
-    Lentivirus(std::string name, int* genome, int viruslength);
+    Lentivirus(const std::string* name, int* genome, int viruslength);
     Lentivirus(Virus& other);
     ~Lentivirus() override {}
 
@@ -58,7 +60,7 @@ class Mimivirus : public Virus
 {
   public:
     Mimivirus() = delete;
-    Mimivirus(std::string name, int* genome, int viruslength);
+    Mimivirus(const std::string* name, int* genome, int viruslength);
     Mimivirus(Virus& other);
     ~Mimivirus() override;
 
@@ -76,7 +78,7 @@ class Papilloma : public Virus
 
   public:
     Papilloma() = delete;
-    Papilloma(std::string name, int* genome, int viruslength);
+    Papilloma(const std::string* name, int* genome, int viruslength);
     Papilloma(Virus& other);
     ~Papilloma() override;
 

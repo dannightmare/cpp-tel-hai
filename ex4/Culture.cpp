@@ -8,12 +8,12 @@ Culture::Culture(int virusesamount, int viruslength)
   , virusesamount(virusesamount)
 {
     variants = new int[viruslength];
-    names = new std::string[viruslength];
+    m_names = new const std::string*[viruslength];
 }
 
 Culture::~Culture()
 {
-    delete[] names;
+    delete[] m_names;
     delete[] variants;
 }
 
@@ -124,14 +124,18 @@ Virus&
 Culture::variant(Virus& virus)
 {
     // find which variant is next
-    std::string name = virus.getName();
-    int variant = 0;
-    for (int i = 0; i < virusesamount; i++) {
-        if (name.compare(names[i]) == 0) {
-            variant = ++(variants[i]);
-            break;
-        }
-    }
+    const std::string* name = virus.getName();
+    int index = name - *m_names;
+    // LOG(index);
+
+    int variant = ++variants[index];
+
+    // for (int i = 0; i < virusesamount; i++) {
+    //     if (name.compare(names[i]) == 0) {
+    //         variant = ++(variants[i]);
+    //         break;
+    //     }
+    // }
 
 // #define DEBUG_VARIANT
 #ifdef DEBUG_VARIANT
@@ -166,7 +170,7 @@ Culture::setTarget(Virus* target)
 void
 Culture::add(Virus* virus)
 {
-    names[queue.getSize()] = virus->getName();
+    m_names[queue.getSize()] = virus->getName();
     variants[queue.getSize()] = 0;
     queue.Enqueue(virus);
 }

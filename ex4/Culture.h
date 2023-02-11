@@ -1,26 +1,21 @@
+#pragma once
 #include "Queue.h"
 #include "Virus.h"
-#include "Papilloma.h"
-#include "Lentivirus.h"
-#include "Mimivirus.h"
 #include <iostream>
 
-#ifndef CULTURE_H
-#define CULTURE_H
 
 class Culture
 {
     int viruslength;
     int virusesamount;
-    static Virus* target; // single virus object
-    Queue<Virus> queue;   // queue
-    // int mutations;
-    std::string* names; // array
-    int* variants;      // array
- public:
+    static Virus* target;      // single virus object
+    Queue<Virus> queue;        // queue
+                               // int mutations;
+    std::string const** m_names; // array
+    int* variants;             // array
+  public:
     void sort();
 
- 
     Culture(int virusesamount, int viruslength);
     // Culture(const std::string* names,
     //         int** matrix,
@@ -48,5 +43,3 @@ class Culture
     friend bool operator<(const Virus& virus1, const Virus& virus2);
     friend std::ostream& operator<<(std::ostream& out, const Culture& culture);
 };
-
-#endif // CULTURE_H
