@@ -84,6 +84,12 @@ Culture::operator++(int)
     sort();
 }
 
+/**
+ * This function is so disgusting primarily because of the restriction
+ * of having to use a Queue for such an unfitting task.
+ * 
+ * who thought to make us use a queue to implement what is essentially an array...
+ */
 void
 Culture::remove(Virus* virus)
 {
